@@ -75,6 +75,24 @@ namespace SegundoParcial
                 exit = false;
                 return exit;
             }
+            else
+            {
+                switch (usuario)
+                {
+                    case "Administrador":
+                        switch (opcion)
+                        {
+                            case 1:
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
 
             return exit;
         }
@@ -154,7 +172,7 @@ namespace SegundoParcial
         ///     Método para evitar que se muestre la escritura de la contraseña en pantalla
         /// </summary>
         /// <returns>Password completa</returns>
-        public static string ocultarPass()
+        static string ocultarPass()
         {
             StringBuilder password = new StringBuilder();
 
@@ -175,6 +193,17 @@ namespace SegundoParcial
             }
 
             return password.ToString();
+        }
+
+        static void ResizeArray<T>(ref T[,] original, int newCoNum, int newRoNum)
+        {
+            var newArray = new T[newCoNum, newRoNum];
+            int columnCount = original.GetLength(1);
+            int columnCount2 = newRoNum;
+            int columns = original.GetUpperBound(0);
+            for (int co = 0; co <= columns; co++)
+                Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
+            original = newArray;
         }
 
 
@@ -201,6 +230,12 @@ namespace SegundoParcial
                 if (indice == -1)
                 {
                     indice = auxMatriz.GetLength(0) + 1;
+                    ResizeArray<string>(ref auxMatriz, indice, 3);
+                }
+                else
+                {
+                    auxMatriz[indice, 1] = usuario;
+                    auxMatriz[indice, 2] = password;
                 }
 
             } while (continuar);
