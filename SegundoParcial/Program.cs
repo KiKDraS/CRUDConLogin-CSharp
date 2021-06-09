@@ -15,36 +15,30 @@ namespace SegundoParcial
             do
             {
                 //Login
-                string usuario = Procedimientos.login();
+                string usuario = Visualizacion.login();
 
                 switch (usuario)
                 {
-                    case "Administrador":
+                    case "Admin":
                         do
                         {
                             Console.Clear();
-                            Procedimientos.menuAdmin(usuario, exit);
-                            exit = Validaciones.validarSalir("\nPresione ESC para salir", exit);
+                            exit = Visualizacion.menuUser("Admin", exit);
 
                         } while (exit);
-                        break;
-
-                    case "":
-                        exit = Validaciones.validarSalir("\nPresione ESC para salir", exit);
                         break;
 
                     default:
                         do
                         {
                             Console.Clear();
-                            Procedimientos.menuAdmin(usuario, exit);
-                            exit = Validaciones.validarSalir("\nPresione ESC para salir", exit);
+                            exit = Visualizacion.menuUser(usuario, exit);
 
                         } while (exit);
                         break;
                 }
 
-                exit = Validaciones.validarSalir("Presione ENTER para volver al Login o ESC para salir del programa", exit);
+                exit = Validaciones.validarSalir("\nPresione ENTER para volver al login o ESC para salir de la aplicación", exit);
 
             } while (exit);
         }

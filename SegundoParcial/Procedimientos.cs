@@ -8,125 +8,62 @@ namespace SegundoParcial
 {
     public static class Procedimientos
     {
-        /// <summary>
-        ///     Impresión del título de la aplicación
-        /// </summary>
-        public static void titulo()
-        {
-            Console.ForegroundColor = ConsoleColor.Magenta;
-
-            Console.WriteLine(".~~~~~~~~~~~~~~~~~.");
-            Console.WriteLine("| Librería OnLine |");
-            Console.WriteLine("'~~~~~~~~~~~~~~~~~'\n");
-
-            Console.ResetColor();
-        }
-
-
-        //MENUS DE OPCIONES
-
-        /// <summary>
-        ///     Impresión del menú para la selección del usuario
-        /// </summary>
-        /// <returns>Usuario validado</returns>
-        public static string login()
-        {
-            string usuario = "";
-
-            titulo();
-            Console.WriteLine("Login\n");
-            int cantidadImpresa = imprimirMatriz(Usuarios.matrizUsuarios, 1, null);
-            int opcion = Validaciones.validarOpcionMatriz<string>("\nSeleccione opción: ", cantidadImpresa, Usuarios.matrizUsuarios, 1, usuario);
-
-            if (opcion == cantidadImpresa)
-            {
-                return usuario;
-            }
-            else
-            {
-                //Validación de contraseña de usuario
-                Console.WriteLine($"Usuario seleccionado: {Usuarios.matrizUsuarios[opcion - 1, 1]}");
-                usuario = Validaciones.validarPass("Ingrese contraseña: ", Usuarios.matrizUsuarios, opcion);
-            }
-
-            return usuario;
-
-        }
-
-        /// <summary>
-        ///     Imprime el menú para los distintos usuarios
-        ///     <param name="usuario">Nombre del usuario logueado actualmente</param>
-        /// </summary>
-        /// <returns>Estado de booleano exit para salir del programa</returns>
-        public static bool menuAdmin(string usuario, bool exit)
-        {
-            titulo();
-            Console.WriteLine($"\nMenu {usuario}\n");
-            int cantidadImpresa = imprimirArray(Usuarios.opcionesMenu, usuario);
-            int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, Usuarios.opcionesMenu, usuario);
-
-            if (opcion == cantidadImpresa)
-            {
-                exit = false;
-                return exit;
-            }
-            else
-            {
-                switch (usuario)
-                {
-                    case "Administrador":
-                        switch (opcion)
-                        {
-                            case 1:
-                                break;
-                            default:
-                                break;
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-            return exit;
-        }
-
-
-
         //PROCEDIMIENTOS DE MATRICES
 
         /// <summary>
-        ///     Impresión de Matriz.
+        ///     Impresión de Matriz
         /// </summary>
-        /// <param name="auxMatriz">Matriz de string de la que se quiere imprimir la columna</param>
-        /// <param name="numColumna">Columna de la Matriz a imprimir</param>
-        /// <param name="usuario">Nombre del usuario logueado actualmente</param>
-        /// <returns>Cantidad de elementos impresos</returns>
-        public static int imprimirMatriz<T>(T[,] auxMatriz, int numColumna, string usuario)
+        /// <param name="auxMatriz">Matriz a imprimir</param>
+        public static void imprimirMatriz<T>(T[,] auxMatriz)
         {
-            int cantidadImpresa = 0;
+            int numColumna = 1;
 
             for (int i = 0; i < auxMatriz.GetLength(0); i++)
             {
-                if (!string.IsNullOrEmpty(auxMatriz[i, numColumna].ToString()))
+                Console.WriteLine("-------------------------");
+                Console.Write("|");
+                for (int j = 0; j < auxMatriz.GetLength(numColumna); j++)
                 {
-                    cantidadImpresa++;
-                    Console.WriteLine($"{cantidadImpresa}. {auxMatriz[i, numColumna]}");
-                }
-            }
-            cantidadImpresa++;
-            Console.WriteLine($"{cantidadImpresa}. Salir");
+                    if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()) || auxMatriz[i, j].ToString() != "0")
+                    {
+                        Console.WriteLine($"{auxMatriz[i, j], -25}|");
+                    }
 
-            return cantidadImpresa;
+                }
+                Console.WriteLine("-------------------------");
+                numColumna++;
+            }
         }
 
+        /// <summary>
+        ///     Método que permite imprimir una columna o fila específica de la matriz.
+        /// </summary>
+        /// <param name="auxMatriz">Matiz a imprimir</param>
+        /// <param name="numFila">Indice de la fila que se quiere imprimir</param>
+        /// <param name="numColum">Indice de la columna que se quiere imprimir</param>
+        public static void imprirFilaColumMatriz<T>(T[,] auxMatriz, int numFila, int numColum)
+        {
+            for (int i = 0; i < auxMatriz.GetLength(numFila); i++)
+            {
+                Console.WriteLine("-------------------------");
+                Console.Write("|");
+                for (int j = 0; j < auxMatriz.GetLength(numColum); j++)
+                {
+                    if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()) || auxMatriz[i, j].ToString() != "0")
+                    {
+                        Console.WriteLine($"{auxMatriz[i, j],-25}|");
+                    }
+
+                }
+                Console.WriteLine("-------------------------");
+            }
+        }
 
 
         //PROCEDIMIENTOS DE ARRAYS
 
         /// <summary>
-        ///     Impresión de Array
+        ///     Impresión de Array. Pasar null en el segundo parámetro si no es necesario evaluar usuario logueado
         /// </summary>
         /// <param name="auxArray">Array a imprimir</param>
         /// <param name="usuario">Nombre del usuario logueado actualmente</param>
@@ -135,28 +72,29 @@ namespace SegundoParcial
         {
             int cantidadImpresa = 0;
 
-            if (usuario == "Administrador")
-            {   
-                //getType()
-                for (int i = 0; i < auxArray.GetLength(0); i++)
-                {
-                    if (!string.IsNullOrEmpty(auxArray[i].ToString()))
-                    {
-                        //comparar como 0
-                        cantidadImpresa++;
-                        Console.WriteLine($"{cantidadImpresa}. {auxArray[i]}");
-                    }
-                }
-                cantidadImpresa++;
-                Console.WriteLine($"{cantidadImpresa}. Salir");
-            }
-            else
+            if(usuario != null)
             {
-                cantidadImpresa++;
-                Console.WriteLine($"{cantidadImpresa}. Vender");
-                cantidadImpresa++;
-                Console.WriteLine($"{cantidadImpresa}. Salir");
-            }         
+                if (usuario == "Admin")
+                {
+                    for (int i = 0; i < auxArray.GetLength(0); i++)
+                    {
+                        if (!string.IsNullOrEmpty(auxArray[i].ToString()) || auxArray[i].ToString() != "0")
+                        {
+                            cantidadImpresa++;
+                            Console.WriteLine($"{cantidadImpresa}. {auxArray[i]}");
+                        }
+                    }
+                    cantidadImpresa++;
+                    Console.WriteLine($"{cantidadImpresa}. Salir");
+                }
+                else
+                {
+                    cantidadImpresa++;
+                    Console.WriteLine($"{cantidadImpresa}. Vender");
+                    cantidadImpresa++;
+                    Console.WriteLine($"{cantidadImpresa}. Salir");
+                }
+            }                     
 
             return cantidadImpresa;
         }
@@ -164,45 +102,112 @@ namespace SegundoParcial
 
         //CRUD - Matriz
 
-        public static string[,] agregarElementoMatriz(string[,] auxMatriz, string usuario, string password)
+        /// <summary>
+        ///     Método para armar una matriz auxiliar que permita cargar nuevos datos en otra matriz
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="matrizOriginal">Matriz de referencia para la creación de la matriz auxiliar</param>
+        /// <returns>Matriz auxiliar con los datos para cargar en otra matriz</returns>
+        public static string[,] armarMatrizDatosNuevos<T>(T[,] matrizOriginal)
         {
-            bool continuar = true;
-            int indice = -1;
+            int filasOriginal = matrizOriginal.GetLength(0);
+            int columnasOriginal = matrizOriginal.GetLength(1);
+            string[,] elemAgregar = new string [1, columnasOriginal];
+            string[,] auxOriginal = new string[1, columnasOriginal];
+            int id = -1;
+            int datos = 0;
+            bool continuar;
+
+            for (int i = 0; i < filasOriginal; i++)
+            {
+                if (string.IsNullOrEmpty(matrizOriginal[i, 0].ToString()) || matrizOriginal[i, 0].ToString() == "0")
+                {
+                    id = i;
+                }
+            }
+            
+            if(id == -1)
+            {
+                id = filasOriginal + 1;
+            }
+
+            //Carga de datos en Matriz
+
+            elemAgregar[1, 0] = id.ToString();
+            while (datos < columnasOriginal)
+            {
+                for (int i = 1; i < columnasOriginal; i++)
+                {
+                    auxOriginal[0, i] = matrizOriginal[0, i].ToString();
+                    Console.Write($"Ingrese {matrizOriginal[1,i]}");
+                    elemAgregar[0, i] = armarString();
+                    datos++;
+                }
+
+            }
+
+            //Validación de datos cargados
 
             do
             {
-                //Buscar elementos espacios vacíos en la Matriz
-
-                for (int i = 0; i < auxMatriz.GetLength(0); i++)
-                {
-                    if (string.IsNullOrEmpty(auxMatriz[i,1]))
-                    {
-                        indice = i;
-                        break;
-                    }
-                }
-
-                if (indice == -1)
-                {
-                    indice = auxMatriz.GetLength(0) + 1;
-                    ResizeArray<string>(ref auxMatriz, indice, 3);
-                }
-                else
-                {
-                    auxMatriz[indice, 1] = usuario;
-                    auxMatriz[indice, 2] = password;
-                }
+                continuar = Validaciones.validarCargaDatos(elemAgregar, auxOriginal);
 
             } while (continuar);
 
-            return auxMatriz;
+            return elemAgregar; 
+        }
+
+        /// <summary>
+        ///     Carga de datos de matriz auxiliar en matriz original
+        /// </summary>
+        /// <param name="matrizOriginal">Matriz que va a recibir los datos</param>
+        /// <param name="elemAgregar">Matriz auxiliar con los datos a cargar</param>
+        public static void agregarElementoMatrizStr(string[,] matrizOriginal, string[,] elemAgregar)
+        {
+            int indice = -1;
+
+            //Buscar espacios vacíos en la Matriz
+
+            for (int i = 0; i < matrizOriginal.GetLength(0); i++)
+            {
+                if (string.IsNullOrEmpty(matrizOriginal[i, 1].ToString()))
+                {
+                    indice = i;
+                    break;
+                }
+            }
+
+            //Cargar datos nuevos
+
+            if (indice == -1)
+            {
+                indice = matrizOriginal.GetLength(0) + 1;
+                ResizeArray<string>(ref matrizOriginal, indice, 3);
+                for (int i = 0; i < elemAgregar.GetLength(0); i++)
+                {
+                    matrizOriginal[indice, i] = elemAgregar[0, i];
+                }
+            }
+            else
+            {
+                for (int i = 0; i < elemAgregar.GetLength(0); i++)
+                {
+                    matrizOriginal[indice, i] = elemAgregar[0, i];
+                }
+                    
+            }
         }
 
 
 
         //HELPERS
 
-
+        /// <summary>
+        ///     Método para agrandar matriz
+        /// </summary>
+        /// <param name="original">Matriz a agrandar</param>
+        /// <param name="newCoNum">Nuevo tamaño de columnas</param>
+        /// <param name="newRoNum">Nuevo tamaño de filas</param>
         static void ResizeArray<T>(ref T[,] original, int newCoNum, int newRoNum)
         {
             var newArray = new T[newCoNum, newRoNum];
@@ -212,6 +217,31 @@ namespace SegundoParcial
             for (int co = 0; co <= columns; co++)
                 Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
             original = newArray;
+        }
+
+        /// <summary>
+        ///     Método para armar un string utilizando StringBuilder
+        /// </summary>
+        /// <returns>String creado</returns>
+        public static string armarString()
+        {
+            StringBuilder dato = new StringBuilder();
+
+            while (true)
+            {
+                var key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter) break;
+                if (key.Key == ConsoleKey.Backspace && dato.Length > 0)
+                {
+                    dato.Remove(dato.Length - 1, 1);
+                }
+                else if (key.Key != ConsoleKey.Backspace)
+                {
+                    dato.Append(key.KeyChar);
+                }
+            }
+
+            return dato.ToString();
         }
     }
 }

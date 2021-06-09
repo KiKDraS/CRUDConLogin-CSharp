@@ -8,61 +8,88 @@ namespace SegundoParcial
 {
     public static class Validaciones
     {
-        //VALIDACIONES MATRICES
+        #region Validaciones de usuario
 
-        /// <summary>
-        ///     Valida la opción elegida del menú armado a partir de una Matriz de string. Pasar null/empty en el último parámetro cuando no sea necesario evaluar tipo de usuario
-        /// </summary>
-        /// <param name="mensaje">Mensaje a imprimir en pantalla para pedir el dato a validar</param>
-        /// <param name="opciones">Cantidad de opciones impresas en el menú</param>
-        /// <param name="auxMatriz">Matriz de string para reimprimir menú en caso de ser necesarioa</param>
-        /// <param name="numColumna">Posición de la columna que se desea imprimir</param>
-        /// <param name="usuario">Usuario logueado</param>
-        /// <returns>Opción elegida con las validaciones realizadas</returns>
-        public static int validarOpcionMatriz<T>(string mensaje, int opciones, T[,]auxMatriz, int numColumna, string usuario)
-        {
-            int opcionValidada;
-            int max = opciones+1;
-
-            Console.Write(mensaje);
-
-            while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
+            /// <summary>
+            ///     Método que valida la existencia del nombre de usario ingresado
+            /// </summary>
+            /// <param name="mensaje">Mensaje a imprimir en pantalla</param>
+            /// <param name="auxMatriz">Matriz que contiene los usarios del sistema</param>
+            /// <returns>ID del usuario</returns>
+            public static int validarUsuario(string mensaje, string[,] auxMatriz)
             {
-                Console.Clear();
-                Procedimientos.titulo();
-                Procedimientos.imprimirMatriz(auxMatriz, numColumna, usuario);
-                Console.WriteLine("Error, reingresar un valor correcto");
+                int id = -1;
+                Console.Write(mensaje);
+                string user = Console.ReadLine().Trim();
+
+                while (user != "encontrado")
+                {
+                    for (int i = 0; i < auxMatriz.GetLength(0); i++)
+                    {
+                        if (user == auxMatriz[i, 1])
+                        {
+                            id = i;
+                            user = "encontrado";
+                            break;
+                        }
+                    }
+
+                    if (user != "encontrado")
+                    {
+                        Console.Write("Ususario no existe. \n\nIngrese usuario: ");
+                        user = Console.ReadLine().Trim();
+                    }
+                }
+
+                return id;
             }
 
-            return opcionValidada;
-        }
-
-        /// <summary>
-        ///     Método que valida la password ingresada por el usuario contra la password guardada en sistema
-        /// </summary>
-        /// <param name="mensaje">Mensaje a imprimir en pantalla</param>
-        /// <param name="auxMatriz">Matriz que contiene la password del sistema para validar</param>
-        /// <param name="usuarioSeleccionado">Indice del usuario en la Matriz</param>
-        /// <returns></returns>
-        public static string validarPass(string mensaje, string[,] auxMatriz, int usuarioSeleccionado)
-        {
-            Console.Write(mensaje);
-            string pass = Usuarios.ocultarPass().Trim();
-
-            while (pass != auxMatriz[usuarioSeleccionado - 1, 2])
+            /// <summary>
+            ///     Método que valida la password ingresada por el usuario contra la password guardada en sistema
+            /// </summary>
+            /// <param name="mensaje">Mensaje a imprimir en pantalla</param>
+            /// <param name="auxMatriz">Matriz que contiene la password del sistema para validar</param>
+            /// <param name="usuarioSeleccionado">Indice del usuario en la Matriz</param>
+            /// <returns></returns>
+            public static string validarPass(string mensaje, string[,] auxMatriz, int usuarioSeleccionado)
             {
-                Console.Clear();
-                Procedimientos.titulo();
-                Console.WriteLine($"Usuario seleccionado: {Usuarios.matrizUsuarios[usuarioSeleccionado - 1, 1]}");
-                Console.Write("Contraseña incorrecta. Vuelva a ingresarla: ");
-                pass = Usuarios.ocultarPass();
+                Console.Write(mensaje);
+                string pass = Usuarios.ocultarPass().Trim();
+
+                while (pass != auxMatriz[usuarioSeleccionado, 2])
+                {
+                    Console.Clear();
+                    Visualizacion.titulo();
+                    Console.WriteLine($"Usuario seleccionado: {Usuarios.matrizUsuarios[usuarioSeleccionado, 1]}");
+                    Console.Write("Contraseña incorrecta. Vuelva a ingresarla: ");
+                    pass = Usuarios.ocultarPass();
+                }
+
+                string usuario = Usuarios.matrizUsuarios[usuarioSeleccionado, 1];
+
+                return usuario;
             }
 
-            string usuario = Usuarios.matrizUsuarios[usuarioSeleccionado - 1, 1];
+        #endregion
 
-            return usuario;
+
+        //VALIDACIONS MATRICES
+
+        public static bool validarCargaDatos<T>(T[,] auxMatriz, T[,]matrizOriginal)
+        {
+            bool continuar = true;
+
+            Console.WriteLine("Revise los datos ingresados: ");
+            Procedimientos.imprirFilaColumMatriz(matrizOriginal, 0, 0);
+            Procedimientos.imprimirMatriz(auxMatriz);
+
+            while (continuar)
+            {
+                continuar = validarSalir("Si los datos son correctos presione ESC. Si quiere cambiarlos presione ENTER", continuar);
+            }
+
+            return continuar;
         }
-
 
 
         //VALIDACIONES ARRAYS
@@ -82,12 +109,12 @@ namespace SegundoParcial
 
             Console.Write(mensaje);
 
-            if (usuario == "Administrador")
+            if (usuario == "Admin")
             {
                 while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
                 {
                     Console.Clear();
-                    Procedimientos.titulo();
+                    Visualizacion.titulo();
                     Procedimientos.imprimirArray(auxArray, usuario);
                     Console.WriteLine("Error, reingresar un valor correcto");
                 }
@@ -97,7 +124,7 @@ namespace SegundoParcial
                 while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
                 {
                     Console.Clear();
-                    Procedimientos.titulo();
+                    Visualizacion.titulo();
                     Procedimientos.imprimirArray(auxArray, usuario);
                     Console.WriteLine("Error, reingresar un valor correcto");
                 }
@@ -133,8 +160,7 @@ namespace SegundoParcial
                     exit = true;
                     break;
             }
-
-           
+            
             return exit;
         }
     }
