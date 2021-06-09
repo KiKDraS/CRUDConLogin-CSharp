@@ -29,18 +29,16 @@ namespace SegundoParcial
         ///     Impresión del menú para la selección del usuario
         /// </summary>
         /// <returns>Usuario validado</returns>
-        public static string menuUsuarios()
+        public static string login()
         {
-            int opcion = -1;
-            int cantidadImpresa = 0;
             string usuario = "";
 
             titulo();
             Console.WriteLine("Login\n");
-            cantidadImpresa = imprimirMatrizStr(Usuarios.matrizUsuarios, 1, null);
-            opcion = Validaciones.validarOpcionMatrizSrt("\nSeleccione opción: ", cantidadImpresa, Usuarios.matrizUsuarios, 1, usuario);
+            int cantidadImpresa = imprimirMatriz(Usuarios.matrizUsuarios, 1, null);
+            int opcion = Validaciones.validarOpcionMatriz<string>("\nSeleccione opción: ", cantidadImpresa, Usuarios.matrizUsuarios, 1, usuario);
 
-            if(opcion == cantidadImpresa)
+            if (opcion == cantidadImpresa)
             {
                 return usuario;
             }
@@ -48,7 +46,7 @@ namespace SegundoParcial
             {
                 //Validación de contraseña de usuario
                 Console.WriteLine($"Usuario seleccionado: {Usuarios.matrizUsuarios[opcion - 1, 1]}");
-                usuario = Validaciones.validarPassMatriz("Ingrese contraseña: ", Usuarios.matrizUsuarios, opcion);
+                usuario = Validaciones.validarPass("Ingrese contraseña: ", Usuarios.matrizUsuarios, opcion);
             }
 
             return usuario;
@@ -62,13 +60,10 @@ namespace SegundoParcial
         /// <returns>Estado de booleano exit para salir del programa</returns>
         public static bool menuAdmin(string usuario, bool exit)
         {
-            int opcion = -1;
-            int cantidadImpresa = 0;
-
             titulo();
             Console.WriteLine($"\nMenu {usuario}\n");
-            cantidadImpresa = imprimirArrayStr(Usuarios.opcionesMenu, usuario);
-            opcion = Validaciones.validarOpcionArraySrt("\nSeleccione opción: ", cantidadImpresa, Usuarios.opcionesMenu, usuario);
+            int cantidadImpresa = imprimirArray(Usuarios.opcionesMenu, usuario);
+            int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, Usuarios.opcionesMenu, usuario);
 
             if (opcion == cantidadImpresa)
             {
@@ -102,19 +97,19 @@ namespace SegundoParcial
         //PROCEDIMIENTOS DE MATRICES
 
         /// <summary>
-        ///     Impresión de Matriz de string. Pasar empty/null en el tercer parámetro si no se necesita evaluar tipo de usuario.
+        ///     Impresión de Matriz.
         /// </summary>
         /// <param name="auxMatriz">Matriz de string de la que se quiere imprimir la columna</param>
         /// <param name="numColumna">Columna de la Matriz a imprimir</param>
-        /// <param name="usuario">Nombre del usuario logueado actualmente pasar null/empty cuando no sea necesario</param>
+        /// <param name="usuario">Nombre del usuario logueado actualmente</param>
         /// <returns>Cantidad de elementos impresos</returns>
-        public static int imprimirMatrizStr(string[,] auxMatriz, int numColumna, string usuario)
+        public static int imprimirMatriz<T>(T[,] auxMatriz, int numColumna, string usuario)
         {
             int cantidadImpresa = 0;
 
             for (int i = 0; i < auxMatriz.GetLength(0); i++)
             {
-                if (!string.IsNullOrEmpty(auxMatriz[i, numColumna]))
+                if (!string.IsNullOrEmpty(auxMatriz[i, numColumna].ToString()))
                 {
                     cantidadImpresa++;
                     Console.WriteLine($"{cantidadImpresa}. {auxMatriz[i, numColumna]}");
@@ -131,21 +126,23 @@ namespace SegundoParcial
         //PROCEDIMIENTOS DE ARRAYS
 
         /// <summary>
-        ///     Impresión de Array de string. Pasar empty/null en el segundo parámetro cuando no sea necesario evaluar tipo de usuario
+        ///     Impresión de Array
         /// </summary>
         /// <param name="auxArray">Array a imprimir</param>
-        /// <param name="usuario">Nombre del usuario logueado actualmente pasar null/empty cuando no sea necesario</param>
-        /// <returns></returns>
-        public static int imprimirArrayStr(string[] auxArray, string usuario)
+        /// <param name="usuario">Nombre del usuario logueado actualmente</param>
+        /// <returns>Cantidad de opciones impresas</returns>
+        public static int imprimirArray<T>(T[] auxArray, string usuario)
         {
             int cantidadImpresa = 0;
 
             if (usuario == "Administrador")
-            {
+            {   
+                //getType()
                 for (int i = 0; i < auxArray.GetLength(0); i++)
                 {
-                    if (!string.IsNullOrEmpty(auxArray[i]))
+                    if (!string.IsNullOrEmpty(auxArray[i].ToString()))
                     {
+                        //comparar como 0
                         cantidadImpresa++;
                         Console.WriteLine($"{cantidadImpresa}. {auxArray[i]}");
                     }
@@ -165,51 +162,9 @@ namespace SegundoParcial
         }
 
 
-
-        //HELPERS
-
-        /// <summary>
-        ///     Método para evitar que se muestre la escritura de la contraseña en pantalla
-        /// </summary>
-        /// <returns>Password completa</returns>
-        static string ocultarPass()
-        {
-            StringBuilder password = new StringBuilder();
-
-            while (true)
-            {
-                var key = Console.ReadKey(true);
-                if (key.Key == ConsoleKey.Enter) break;
-                if (key.Key == ConsoleKey.Backspace && password.Length > 0)
-                {
-                    password.Remove(password.Length - 1, 1);
-                    Console.Write("\b \b");
-                }
-                else if (key.Key != ConsoleKey.Backspace)
-                {
-                    password.Append(key.KeyChar);
-                    Console.Write("*");
-                }
-            }
-
-            return password.ToString();
-        }
-
-        static void ResizeArray<T>(ref T[,] original, int newCoNum, int newRoNum)
-        {
-            var newArray = new T[newCoNum, newRoNum];
-            int columnCount = original.GetLength(1);
-            int columnCount2 = newRoNum;
-            int columns = original.GetUpperBound(0);
-            for (int co = 0; co <= columns; co++)
-                Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
-            original = newArray;
-        }
-
-
         //CRUD - Matriz
 
-        public static string[,] agregarElementoMatrizStr(string[,] auxMatriz, string usuario, string password)
+        public static string[,] agregarElementoMatriz(string[,] auxMatriz, string usuario, string password)
         {
             bool continuar = true;
             int indice = -1;
@@ -241,6 +196,22 @@ namespace SegundoParcial
             } while (continuar);
 
             return auxMatriz;
+        }
+
+
+
+        //HELPERS
+
+
+        static void ResizeArray<T>(ref T[,] original, int newCoNum, int newRoNum)
+        {
+            var newArray = new T[newCoNum, newRoNum];
+            int columnCount = original.GetLength(1);
+            int columnCount2 = newRoNum;
+            int columns = original.GetUpperBound(0);
+            for (int co = 0; co <= columns; co++)
+                Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
+            original = newArray;
         }
     }
 }

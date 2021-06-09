@@ -19,7 +19,7 @@ namespace SegundoParcial
         /// <param name="numColumna">Posición de la columna que se desea imprimir</param>
         /// <param name="usuario">Usuario logueado</param>
         /// <returns>Opción elegida con las validaciones realizadas</returns>
-        public static int validarOpcionMatrizSrt(string mensaje, int opciones, string[,] auxMatriz, int numColumna, string usuario)
+        public static int validarOpcionMatriz<T>(string mensaje, int opciones, T[,]auxMatriz, int numColumna, string usuario)
         {
             int opcionValidada;
             int max = opciones+1;
@@ -30,7 +30,7 @@ namespace SegundoParcial
             {
                 Console.Clear();
                 Procedimientos.titulo();
-                Procedimientos.imprimirMatrizStr(auxMatriz, numColumna, usuario);
+                Procedimientos.imprimirMatriz(auxMatriz, numColumna, usuario);
                 Console.WriteLine("Error, reingresar un valor correcto");
             }
 
@@ -44,10 +44,10 @@ namespace SegundoParcial
         /// <param name="auxMatriz">Matriz que contiene la password del sistema para validar</param>
         /// <param name="usuarioSeleccionado">Indice del usuario en la Matriz</param>
         /// <returns></returns>
-        public static string validarPassMatriz(string mensaje, string[,] auxMatriz, int usuarioSeleccionado)
+        public static string validarPass(string mensaje, string[,] auxMatriz, int usuarioSeleccionado)
         {
             Console.Write(mensaje);
-            string pass = Procedimientos.ocultarPass().Trim();
+            string pass = Usuarios.ocultarPass().Trim();
 
             while (pass != auxMatriz[usuarioSeleccionado - 1, 2])
             {
@@ -55,7 +55,7 @@ namespace SegundoParcial
                 Procedimientos.titulo();
                 Console.WriteLine($"Usuario seleccionado: {Usuarios.matrizUsuarios[usuarioSeleccionado - 1, 1]}");
                 Console.Write("Contraseña incorrecta. Vuelva a ingresarla: ");
-                pass = Procedimientos.ocultarPass();
+                pass = Usuarios.ocultarPass();
             }
 
             string usuario = Usuarios.matrizUsuarios[usuarioSeleccionado - 1, 1];
@@ -75,7 +75,7 @@ namespace SegundoParcial
         /// <param name="auxArray">Array a partir del cual se imprime el menú</param>
         /// <param name="usuario">Usuario logueado</param>
         /// <returns></returns>
-        public static int validarOpcionArraySrt(string mensaje, int opciones, string[] auxArray, string usuario)
+        public static int validarOpcionArray<T>(string mensaje, int opciones, T[] auxArray, string usuario)
         {
             int opcionValidada = -1;
             int max = opciones + 1;
@@ -88,7 +88,7 @@ namespace SegundoParcial
                 {
                     Console.Clear();
                     Procedimientos.titulo();
-                    Procedimientos.imprimirArrayStr(auxArray, usuario);
+                    Procedimientos.imprimirArray(auxArray, usuario);
                     Console.WriteLine("Error, reingresar un valor correcto");
                 }
             }
@@ -98,7 +98,7 @@ namespace SegundoParcial
                 {
                     Console.Clear();
                     Procedimientos.titulo();
-                    Procedimientos.imprimirArrayStr(auxArray, usuario);
+                    Procedimientos.imprimirArray(auxArray, usuario);
                     Console.WriteLine("Error, reingresar un valor correcto");
                 }
             }
