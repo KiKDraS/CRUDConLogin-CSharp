@@ -75,20 +75,18 @@ namespace SegundoParcial
 
         //VALIDACIONS MATRICES
 
-        public static bool validarCargaDatos<T>(T[,] auxMatriz, T[,]matrizOriginal)
+        public static void validarCargaDatos<T>(T[,] auxMatriz)
         {
             bool continuar = true;
 
             Console.WriteLine("Revise los datos ingresados: ");
-            Procedimientos.imprirFilaColumMatriz(matrizOriginal, 0, 0);
+            //Procedimientos.imprirFilaColumMatriz(matrizOriginal, 0, 0);
             Procedimientos.imprimirMatriz(auxMatriz);
 
             while (continuar)
             {
                 continuar = validarSalir("Si los datos son correctos presione ESC. Si quiere cambiarlos presione ENTER", continuar);
             }
-
-            return continuar;
         }
 
 

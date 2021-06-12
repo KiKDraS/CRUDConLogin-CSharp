@@ -18,6 +18,18 @@ namespace SegundoParcial
             {"4",    "Vendedor2",        "vendedor2"}
         };
 
+        //CRUD
+
+        public static void agregarUsuario(string[,] matrizUsuarios)
+        {
+            string[,] elemAgregar = Procedimientos.armarMatrizDatosNuevos(matrizUsuarios);
+            //Validación de carga
+            Console.WriteLine("Revise los datos ingresados: ");
+            Procedimientos.imprimirMatriz(elemAgregar);
+            Validaciones.validarCargaDatos(elemAgregar);
+            Procedimientos.agregarElementoMatrizStr(matrizUsuarios, elemAgregar);
+        }
+
         /// <summary>
         ///     Método para evitar que se muestre la escritura de la contraseña en pantalla
         /// </summary>
@@ -44,5 +56,6 @@ namespace SegundoParcial
 
             return password.ToString();
         }
+    
     }
 }

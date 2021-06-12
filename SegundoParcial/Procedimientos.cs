@@ -16,23 +16,24 @@ namespace SegundoParcial
         /// <param name="auxMatriz">Matriz a imprimir</param>
         public static void imprimirMatriz<T>(T[,] auxMatriz)
         {
-            int numColumna = 1;
-
+            Console.WriteLine("-------------------------");
             for (int i = 0; i < auxMatriz.GetLength(0); i++)
             {
-                Console.WriteLine("-------------------------");
-                Console.Write("|");
-                for (int j = 0; j < auxMatriz.GetLength(numColumna); j++)
+                if (!string.IsNullOrEmpty(auxMatriz[i, 0].ToString()) || auxMatriz[i, 0].ToString() == "0")
                 {
-                    if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()) || auxMatriz[i, j].ToString() != "0")
+                    Console.Write("|");
+                    for (int j = 0; j < auxMatriz.GetLength(1); j++)
                     {
-                        Console.WriteLine($"{auxMatriz[i, j], -25}|");
+                        if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()) || auxMatriz[i, j].ToString() == "0")
+                        {
+                            Console.Write($"{auxMatriz[i, j],-25}|");
+                        }
                     }
-
+                    Console.WriteLine("");
                 }
-                Console.WriteLine("-------------------------");
-                numColumna++;
             }
+            Console.WriteLine("-------------------------");
+
         }
 
         /// <summary>
@@ -49,9 +50,9 @@ namespace SegundoParcial
                 Console.Write("|");
                 for (int j = 0; j < auxMatriz.GetLength(numColum); j++)
                 {
-                    if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()) || auxMatriz[i, j].ToString() != "0")
+                    if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()) || auxMatriz[i, j].ToString() == "0")
                     {
-                        Console.WriteLine($"{auxMatriz[i, j],-25}|");
+                        Console.Write($"{auxMatriz[i, j], -10}|");
                     }
 
                 }
@@ -242,6 +243,14 @@ namespace SegundoParcial
             }
 
             return dato.ToString();
+        }
+
+        public static string centrarTexto(string texto)
+        {
+            Console.SetCursorPosition((Console.WindowWidth - texto.Length) / 2, Console.CursorTop);
+
+            return texto;
+
         }
     }
 }

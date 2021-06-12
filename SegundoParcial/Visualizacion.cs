@@ -12,7 +12,7 @@ namespace SegundoParcial
         {
             "Opciones de usuarios",
             "Opciones de stock",
-            "Vender",
+            "Ventas",
             "Facturación del día"
         };
 
@@ -70,8 +70,9 @@ namespace SegundoParcial
 
         /// <summary>
         ///     Imprime el menú para los distintos usuarios
-        ///     <param name="usuario">Nombre del usuario logueado actualmente</param>
         /// </summary>
+        ///     <param name="usuario">Nombre del usuario logueado actualmente</param>
+        ///     <param name="exit">Estado de booleano para salir del programa</param>
         /// <returns>Estado de booleano exit para salir del programa</returns>
         public static bool menuUser(string usuario, bool exit)
         {
@@ -95,160 +96,171 @@ namespace SegundoParcial
             return exit;
         }
 
-        public static bool menuAdmin(string usuario, bool exit)
-        {
-            do
+        #region Sub-Menus. Todos reciben usuario actual y estado del booleando exit manejar navegación
+
+            public static bool menuAdmin(string usuario, bool exit)
             {
-                Console.Clear();
-                titulo();
-                Console.WriteLine($"\nMenu {usuario}\n");
-                int cantidadImpresa = Procedimientos.imprimirArray(opcionesMenu, usuario);
-                int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
-
-                switch (opcion)
+                do
                 {
-                    case 1:
-                        menuCrudUsuarios(usuario, exit);
-                        break;
+                    Console.Clear();
+                    titulo();
+                    Console.WriteLine($"\nMenu {usuario}\n");
+                    int cantidadImpresa = Procedimientos.imprimirArray(opcionesMenu, usuario);
+                    int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
 
-                    case 2:
-                        menuCrudStock(usuario, exit);
-                        break;
+                    switch (opcion)
+                    {
+                        case 1:
+                            menuCrudUsuarios(usuario, exit);
+                            break;
 
-                    case 3:
-                        break;
+                        case 2:
+                            menuCrudStock(usuario, exit);
+                            break;
 
-                    case 4:
+                        case 3:
+                            //Ventas
+                            break;
 
-                        break;
+                        case 4:
+                            //Facturación del día
+                            break;
 
-                    case 5:
-                        exit = false;
-                        break;
-                }
+                        case 5:
+                            exit = false;
+                            break;
+                    }
 
-            } while (exit);
+                } while (exit);
 
-            return exit;
-        }
-    
-        public static bool menuCrudUsuarios(string usuario, bool exit)
-        {
-            do
+                return exit;
+            }
+
+            public static bool menuCrudUsuarios(string usuario, bool exit)
             {
-                Console.Clear();
-                titulo();
-                Console.WriteLine($"\nMenu Opciones Usuarios\n");
-                int cantidadImpresa = Procedimientos.imprimirArray(menuOpcionesUsuarios, usuario);
-                int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
-
-                switch (opcion)
+                do
                 {
-                    case 1:
-                        
-                        break;
+                    Console.Clear();
+                    titulo();
+                    Console.WriteLine("\nMenu Opciones Usuarios\n");
+                    int cantidadImpresa = Procedimientos.imprimirArray(menuOpcionesUsuarios, usuario);
+                    int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
 
-                    case 2:
-                        break;
+                    switch (opcion)
+                    {
+                        case 1:
+                        //Mostrar/Agregar
+                        Console.Clear();
+                        titulo();
+                        Console.WriteLine("Modificar usuario");
+                        Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
+                        Console.ReadKey();
+                            break;
 
-                    case 3:
-                        break;
+                        case 2:
+                            //Modificar
+                            break;
 
-                    case 4:
-                        exit = false;
-                        break;
-                }
+                        case 3:
+                            //Eliminar
+                            break;
 
-            } while (exit);
+                        case 4:
+                            exit = false;
+                            break;
+                    }
 
-            return exit;
-        }
+                } while (exit);
 
-        public static bool menuCrudStock(string usuario, bool exit)
-        {
-            do
+                return exit;
+            }
+
+            public static bool menuCrudStock(string usuario, bool exit)
             {
-                Console.Clear();
-                titulo();
-                Console.WriteLine($"\nMenu Opciones Stock\n");
-                int cantidadImpresa = Procedimientos.imprimirArray(menuOpcionesStock, usuario);
-                int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
-
-                switch (opcion)
+                do
                 {
-                    case 1:
+                    Console.Clear();
+                    titulo();
+                    Console.WriteLine($"\nMenu Opciones Stock\n");
+                    int cantidadImpresa = Procedimientos.imprimirArray(menuOpcionesStock, usuario);
+                    int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
 
-                        break;
+                    switch (opcion)
+                    {
+                        case 1:
 
-                    case 2:
-                        break;
+                            break;
 
-                    case 3:
-                        break;
+                        case 2:
+                            break;
 
-                    case 4:
-                        exit = false;
-                        break;
-                }
+                        case 3:
+                            break;
 
-            } while (exit);
+                        case 4:
+                            exit = false;
+                            break;
+                    }
 
-            return exit;
-        }
+                } while (exit);
 
-        public static bool menuVendedores(string usuario, bool exit)
-        {
-            do
+                return exit;
+            }
+
+            public static bool menuVendedores(string usuario, bool exit)
             {
-                Console.Clear();
-                titulo();
-                Console.WriteLine($"\nMenu {usuario}\n");
-                int cantidadImpresa = Procedimientos.imprimirArray(opcionesMenu, usuario);
-                int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
-
-                switch (opcion)
+                do
                 {
-                    case 1:
-                        exit = menuVentas();
-                        break;
+                    Console.Clear();
+                    titulo();
+                    Console.WriteLine($"\nMenu {usuario}\n");
+                    int cantidadImpresa = Procedimientos.imprimirArray(opcionesMenu, usuario);
+                    int opcion = Validaciones.validarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
 
-                    case 2:
-                        exit = false;
-                        break;
-                }
+                    switch (opcion)
+                    {
+                        case 1:
+                            exit = menuVentas(usuario, exit);
+                            break;
 
-            } while (exit);
+                        case 2:
+                            exit = false;
+                            break;
+                    }
 
-            return exit;
-        }
+                } while (exit);
 
-        public static bool menuVentas()
-        {
-            bool exit = true;
+                return exit;
+            }
 
-            do
+            public static bool menuVentas(string usuario, bool exit)
             {
-                Console.Clear();
-                titulo();
-                Console.WriteLine($"\nMenu Ventas\n");
-                Console.WriteLine("1. PRUEBA DE MENU");
-                Console.WriteLine("2. Salir");
-                int opcion = int.Parse(Console.ReadLine());
-
-                switch (opcion)
+                do
                 {
-                    case 1:
+                    Console.Clear();
+                    titulo();
+                    Console.WriteLine($"\nMenu Ventas\n");
+                    Console.WriteLine("1. PRUEBA DE MENU");
+                    Console.WriteLine("2. Salir");
+                    int opcion = int.Parse(Console.ReadLine());
 
-                        break;
+                    switch (opcion)
+                    {
+                        case 1:
 
-                    case 2:
-                        exit = false;
-                        break;
-                }
+                            break;
 
-            } while (exit);
+                        case 2:
+                            exit = false;
+                            break;
+                    }
 
-            return exit;
-        }
+                } while (exit);
+
+                return exit;
+            }
+
+        #endregion
+
     }
 }
