@@ -45,7 +45,7 @@ namespace SegundoParcial
             }
 
             /// <summary>
-            ///     Método que valida la password ingresada por el usuario contra la password guardada en sistema
+            ///     Método que valida la password ingresada por el usuario
             /// </summary>
             /// <param name="mensaje">Mensaje a imprimir en pantalla</param>
             /// <param name="auxMatriz">Matriz que contiene la password del sistema para validar</param>
@@ -72,26 +72,18 @@ namespace SegundoParcial
 
         #endregion
 
+        #region Validaciones de Matrices
 
-        //VALIDACIONS MATRICES
-
-        public static string[,] validarCargaDatos(string[,] auxMatriz, string[,]auxOriginal)
-        {
-            bool continuar = true;
-
-            Console.Clear();
-            Visualizacion.titulo();
-            Console.WriteLine("Datos ingresados:\n");
-            for (int i = 0; i < auxMatriz.GetLength(0); i++)
+            /// <summary>
+            ///     Método para validar la carga de datos en una matriz
+            /// </summary>
+            /// <param name="auxMatriz">Matriz de datos nuevos a cargar</param>
+            /// <param name="auxOriginal">Matriz en la que se cargarán los datos</param>
+            /// <returns>Matriz de datos validados</returns>
+            public static string[,] validarCargaDatos(string[,] auxMatriz, string[,] auxOriginal)
             {
-                Procedimientos.imprimirMatriz(auxOriginal);
-                Procedimientos.imprimirMatriz(auxMatriz);
-            }
-            
-            continuar = validarSalir("\n\nSi los datos son correctos presione ESC. Si quiere cambiarlos presione ENTER", continuar);            
+                bool continuar = true;
 
-            while (continuar)
-            {
                 Console.Clear();
                 Visualizacion.titulo();
                 Console.WriteLine("Datos ingresados:\n");
@@ -100,148 +92,173 @@ namespace SegundoParcial
                     Procedimientos.imprimirMatriz(auxOriginal);
                     Procedimientos.imprimirMatriz(auxMatriz);
                 }
-                int cantidadImpresa = Procedimientos.menuOpcionesMatriz(auxOriginal, 0);
-                Console.WriteLine("");
-                Console.WriteLine("");
-                int opcion = validarOpcionMatiz("\nSeleccione dato a cambiar: ", cantidadImpresa ,auxOriginal);
-                Console.Write($"Escriba nuevo {auxOriginal[0, opcion]}: ");
-                string dato = Console.ReadLine();
-                auxMatriz[0, opcion] = dato;
-                continuar = validarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", continuar);
-            }
 
-            return auxMatriz;
-        }
+                continuar = validarSalir("\n\nSi los datos son correctos presione ESC. Si quiere cambiarlos presione ENTER", continuar);
 
-        public static int validarID(string mensaje, string[,] auxMatriz)
-        {
-            int id = -1;
-
-            Console.Write(mensaje);
-
-            while (!int.TryParse(Console.ReadLine(), out id))
-            {
-                Console.WriteLine("El ID debe ser numérico");
-
-            }
-
-            while (id == -1)
-            {
-                for (int i = 0; i < auxMatriz.GetLength(0); i++)
+                while (continuar)
                 {
-                    if (auxMatriz[i, 0] == id.ToString())
+                    Console.Clear();
+                    Visualizacion.titulo();
+                    Console.WriteLine("Datos ingresados:\n");
+                    for (int i = 0; i < auxMatriz.GetLength(0); i++)
                     {
-                        int.TryParse(auxMatriz[i, 0], out id);
-                        break;
+                        Procedimientos.imprimirMatriz(auxOriginal);
+                        Procedimientos.imprimirMatriz(auxMatriz);
                     }
-                    else
-                    {
-                        Console.WriteLine("ID no encontrado. Ingrese un nuevo ID");
-                        while (!int.TryParse(Console.ReadLine(), out id))
-                        {
-                            Console.WriteLine("El ID debe ser numérico");
+                    int cantidadImpresa = Procedimientos.menuOpcionesMatriz(auxOriginal, 0);
+                    Console.WriteLine("");                
+                    int opcion = validarOpcionMatiz("Seleccione dato a cambiar: ", cantidadImpresa, auxOriginal);
+                    Console.Write($"Escriba nuevo {auxOriginal[0, opcion]}: ");
+                    string dato = Console.ReadLine();
+                    auxMatriz[0, opcion] = dato;
+                    continuar = validarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", continuar);
+                }
 
+                return auxMatriz;
+            }
+
+            /// <summary>
+            ///     Método para validar el ID seleccionado
+            /// </summary>
+            /// <param name="mensaje">Mensaje para pedir selección de ID</param>
+            /// <param name="auxMatriz">Matriz para comprobar la existencia del ID</param>
+            /// <returns>Interger que representa el ID validado</returns>
+            public static int validarID(string mensaje, string[,] auxMatriz)
+            {
+                int id = -1;
+
+                Console.Write(mensaje);
+
+                while (!int.TryParse(Console.ReadLine(), out id))
+                {
+                    Console.WriteLine("El ID debe ser numérico");
+
+                }
+
+                while (id == -1)
+                {
+                    for (int i = 0; i < auxMatriz.GetLength(0); i++)
+                    {
+                        if (auxMatriz[i, 0] == id.ToString())
+                        {
+                            int.TryParse(auxMatriz[i, 0], out id);
+                            break;
+                        }
+                        else
+                        {
+                            Console.WriteLine("ID no encontrado. Ingrese un nuevo ID");
+                            while (!int.TryParse(Console.ReadLine(), out id))
+                            {
+                                Console.WriteLine("El ID debe ser numérico");
+
+                            }
                         }
                     }
                 }
-            }                                    
-            
-            return id;
-        }
 
-        public static int validarOpcionMatiz<T>(string mensaje, int opciones, T[,] auxMatriz)
-        {
-            int opcionValidada = -1;
-            int max = opciones + 1;
-
-            Console.Write(mensaje);
- 
-            while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
-            {
-                Console.Clear();
-                Visualizacion.titulo();
-                Procedimientos.menuOpcionesMatriz(auxMatriz, 0);
-                Console.WriteLine("Error, reingresar un valor correcto");
+                return id;
             }
 
-            return opcionValidada;
-        }
-
-
-
-
-
-        //VALIDACIONES ARRAYS
-
-        /// <summary>
-        ///     Valida la opción elegida de un menú armado a partir de un Array de string. Pasar null/empty cuando no sea necesario evaluar el tipo de usuario
-        /// </summary>
-        /// <param name="mensaje">Mensaje a imprimir en pantalla para pedir el dato a validar</param>
-        /// <param name="opciones">Cantidad de opciones impresas en el menú</param>
-        /// <param name="auxArray">Array a partir del cual se imprime el menú</param>
-        /// <param name="usuario">Usuario logueado</param>
-        /// <returns></returns>
-        public static int validarOpcionArray<T>(string mensaje, int opciones, T[] auxArray, string usuario)
-        {
-            int opcionValidada = -1;
-            int max = opciones + 1;
-
-            Console.Write(mensaje);
-
-            if (usuario == "Admin")
+            /// <summary>
+            ///     Método que valida la selección de opción de un menú creado a partir de una matriz
+            /// </summary>
+            /// <param name="mensaje">Mensaje para pedir el ingreso de la opción</param>
+            /// <param name="opciones">Cantidad de opciones disponibles</param>
+            /// <param name="auxMatriz">Matriz desde la que se creo el menú</param>
+            /// <returns>Interger que representa la opción validada</returns>
+            public static int validarOpcionMatiz<T>(string mensaje, int opciones, T[,] auxMatriz)
             {
+                int opcionValidada = -1;
+                int max = opciones + 1;
+
+                Console.Write(mensaje);
+
                 while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
                 {
                     Console.Clear();
                     Visualizacion.titulo();
-                    Procedimientos.imprimirArray(auxArray, usuario);
+                    Procedimientos.menuOpcionesMatriz(auxMatriz, 0);
                     Console.WriteLine("Error, reingresar un valor correcto");
                 }
+
+                return opcionValidada;
             }
-            else
+
+
+        #endregion
+
+        #region Validaciones de Arrays
+
+            /// <summary>
+            ///     Valida la opción elegida de un menú armado a partir de un Array de string. Pasar null/empty cuando no sea necesario evaluar el tipo de usuario
+            /// </summary>
+            /// <param name="mensaje">Mensaje a imprimir en pantalla para pedir el dato a validar</param>
+            /// <param name="opciones">Cantidad de opciones impresas en el menú</param>
+            /// <param name="auxArray">Array a partir del cual se imprime el menú</param>
+            /// <param name="usuario">Usuario logueado</param>
+            /// <returns></returns>
+            public static int validarOpcionArray<T>(string mensaje, int opciones, T[] auxArray, string usuario)
             {
-                while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
+                int opcionValidada = -1;
+                int max = opciones + 1;
+
+                Console.Write(mensaje);
+
+                if (usuario == "Admin")
                 {
-                    Console.Clear();
-                    Visualizacion.titulo();
-                    Procedimientos.imprimirArray(auxArray, usuario);
-                    Console.WriteLine("Error, reingresar un valor correcto");
+                    while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
+                    {
+                        Console.Clear();
+                        Visualizacion.titulo();
+                        Procedimientos.imprimirArray(auxArray, usuario);
+                        Console.WriteLine("Error, reingresar un valor correcto");
+                    }
                 }
+                else
+                {
+                    while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
+                    {
+                        Console.Clear();
+                        Visualizacion.titulo();
+                        Procedimientos.imprimirArray(auxArray, usuario);
+                        Console.WriteLine("Error, reingresar un valor correcto");
+                    }
+                }
+
+                return opcionValidada;
             }
 
-            return opcionValidada;
-        }
+        #endregion
 
+        #region Otras
 
-
-
-        //OTRAS
-
-        /// <summary>
-        ///     Validación de salida
-        /// </summary>
-        /// <param name="mensaje">Mensaje a imprimir en pantalla</param>
-        /// <param name="exit">Booleano que maneja la salida</param>
-        /// <returns>Estado del booleano</returns>
-        public static bool validarSalir(string mensaje, bool exit)
-        {
-            Console.WriteLine(mensaje);
-            ConsoleKey salir = Console.ReadKey(true).Key;
-
-            switch (salir)
+            /// <summary>
+            ///     Validación de salida
+            /// </summary>
+            /// <param name="mensaje">Mensaje a imprimir en pantalla</param>
+            /// <param name="exit">Booleano que maneja la salida</param>
+            /// <returns>Estado del booleano</returns>
+            public static bool validarSalir(string mensaje, bool exit)
             {
-                case ConsoleKey.Escape:                    
-                    Console.Clear();
-                    exit = false;
-                    break;
-                case ConsoleKey.Enter:
-                    Console.Clear();
-                    exit = true;
-                    break;
+                Console.WriteLine(mensaje);
+                ConsoleKey salir = Console.ReadKey(true).Key;
+
+                switch (salir)
+                {
+                    case ConsoleKey.Escape:
+                        Console.Clear();
+                        exit = false;
+                        break;
+                    case ConsoleKey.Enter:
+                        Console.Clear();
+                        exit = true;
+                        break;
+                }
+
+                return exit;
             }
-            
-            return exit;
-        }
+
+        #endregion
 
     }
 }

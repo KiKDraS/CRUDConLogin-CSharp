@@ -13,31 +13,52 @@ namespace SegundoParcial
         public static string[,] libros = new string[11, 4]
         {
                 {"ID",  "Titulo",   "Autor",    "Género" },         
-                {"1",   "Título1",   "Autor1",    "Género1" },
-                {"2",   "Título2",   "Autor2",    "Género2" },
-                {"3",   "Título3",   "Autor3",    "Género3" },
-                {"4",   "Título4",   "Autor4",    "Género4" },
-                {"5",   "Título5",   "Autor5",    "Género5" },
-                {"6",   "Título6",   "Autor6",    "Género6" },
-                {"7",   "Título7",   "Autor7",    "Género7" },
-                {"8",   "Título8",   "Autor8",    "Género8" },
-                {"9",   "Título9",   "Autor9",    "Género9" },
-                {"10",  "Título10",   "Autor10",    "Género10" }
+                {"1",   "Elantris",   "Brandon Sanderson",    "Fantasía épica" },
+                {"",   "",   "",    "" },
+                {"3",   "Juego de Tronos",   "George R.R. Martin",    "Fantasía épica" },
+                {"",   "",   "",    "" },
+                {"5",   "El factor Scarpetta",   "Patricia Cornwell",    "Policial" },
+                {"",   "",   "",    "" },
+                {"7",   "La perfección del silencio",   "Clara Asunción García",    "Romance" },
+                {"",   "",   "",    "" },
+                {"9",   "La filosofía de House",   "W. Irvin y H. Jacoby",    "Filosofía" },
+                {"",  "",   "",    "" }
         };
 
         public static float[,] precioCantidad = new float[10, 3]
         {
                 //ID //Cantidad  //Precio
                 {1,     0,          0},
-                {2,     0,          0},
+                {0,     0,          0},
                 {3,     0,          0},
-                {4,     0,          0},
+                {0,     0,          0},
                 {5,     0,          0},
-                {6,     0,          0},
+                {0,     0,          0},
                 {7,     0,          0},
-                {8,     0,          0},
+                {0,     0,          0},
                 {9,     0,          0},
-                {10,    0,          0}
+                {0,     0,          0}
         };
+
+        //CRUD
+
+        /// <summary>
+        ///     Método para agregar dato a la matriz libros. Revisa si hay espacios disponible y, en caso de no haberlo, agranda el tamaño de la matriz
+        /// </summary>
+        /// <param name="exit">Booleano para manejar la nevegación por los distintos menues</param>
+        /// <returns>Booleano para manejar navegación por los distintos menues</returns>
+        public static bool agregarLibro(bool continuar)
+        {
+
+            //Cargar nuevo libro
+            string[,] elemAgregar = Procedimientos.armarMatrizDatosNuevos(libros);
+
+            //Agregar libro a la matriz
+            libros = Procedimientos.agregarElementoMatrizStr(libros, elemAgregar);
+
+            continuar = Validaciones.validarSalir("\n\n Presione ENTER para agregar otro libro o ESC para volver al menú anterior", continuar);
+
+            return continuar;
+        }
     }
 }

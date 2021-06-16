@@ -49,7 +49,7 @@ namespace SegundoParcial
         //MENUS DE OPCIONES
 
         /// <summary>
-        ///     Impresión del menú para la selección del usuario
+        ///     Login de usuario
         /// </summary>
         /// <returns>Usuario validado</returns>
         public static string login()
@@ -131,6 +131,8 @@ namespace SegundoParcial
                             break;
                     }
 
+                    exit = true; //Reseteo de variable
+
                 } while (exit);
 
                 return exit;
@@ -140,6 +142,8 @@ namespace SegundoParcial
             {
                 do
                 {
+                    bool continuar = true;
+                    
                     Console.Clear();
                     titulo();
                     Console.WriteLine("\nMenu Opciones Usuarios\n");
@@ -149,43 +153,47 @@ namespace SegundoParcial
                     switch (opcion)
                     {
                         case 1:
+
                         //Mostrar/Agregar
                         Console.Clear();
                         titulo();
                         Console.WriteLine("Lista de usuarios\n\n");
                         Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
-                        exit = Validaciones.validarSalir("\n\nPresione Enter para agregar usuario o ESC para volver al menú anterior", exit);
+                        continuar = Validaciones.validarSalir("\n\nPresione Enter para agregar usuario o ESC para volver al menú anterior", continuar);
 
-                        while(exit)
+                        while(continuar)
                         {
                             Console.Clear();
                             titulo();
                             Console.WriteLine("Agregar Nuevo Usuario\n");
-                            exit = Usuarios.agregarUsuario(exit);
-
+                            continuar = Usuarios.agregarUsuario(continuar);
                         } 
-                            break;
+
+                        break;
 
                         case 2:
+
                         //Modificar
                         Console.Clear();
                         titulo();
-                        Console.WriteLine("Lista de usuarios");
+                        Console.WriteLine("Lista de usuarios\n");
                         Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
-                        exit = Validaciones.validarSalir("Presione Enter para modificar usuario o ESC para volver al menú anterior", exit);
-                        do
+                        continuar = Validaciones.validarSalir("\n\nPresione Enter para modificar usuario o ESC para volver al menú anterior", continuar);
+
+                        while (continuar)
                         {
                             int idSeleccionado;
 
                             Console.Clear();
                             titulo();
-                            Console.WriteLine("Modificar usuario");
+                            Console.WriteLine("Modificar usuario\n");
                             Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
                             //Seleccionar usuario
                             idSeleccionado = Validaciones.validarID("Ingrese ID de usuario a modificar", Usuarios.matrizUsuarios);
                             //Modificar usuario
 
-                        } while (exit);
+                        } 
+
                         break;
 
                         case 3:
@@ -206,6 +214,8 @@ namespace SegundoParcial
             {
                 do
                 {
+                    bool continuar = true;
+
                     Console.Clear();
                     titulo();
                     Console.WriteLine($"\nMenu Opciones Stock\n");
@@ -215,8 +225,22 @@ namespace SegundoParcial
                     switch (opcion)
                     {
                         case 1:
+                        //Mostrar/Agregar
+                        Console.Clear();
+                        titulo();
+                        Console.WriteLine("Libros en stock\n\n");
+                        Procedimientos.imprimirMatriz(Stock.libros);
+                        continuar = Validaciones.validarSalir("\n\nPresione Enter para agregar libro o ESC para volver al menú anterior", continuar);
 
-                            break;
+                        while (continuar)
+                        {
+                            Console.Clear();
+                            titulo();
+                            Console.WriteLine("Agregar Nuevo Libro\n");
+                            continuar = Stock.agregarLibro(continuar);
+                        }
+
+                        break;
 
                         case 2:
                             break;

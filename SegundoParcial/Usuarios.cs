@@ -18,16 +18,29 @@ namespace SegundoParcial
 
         //CRUD
 
-        public static bool agregarUsuario(bool exit)
+        /// <summary>
+        ///     Método para agregar dato a matrizUsuarios. Revisa si hay espacios disponible y, en caso de no haberlo, agranda el tamaño de la matriz
+        /// </summary>
+        /// <param name="exit">Booleano para manejar la nevegación por los distintos menues</param>
+        /// <returns>Booleano para manejar navegación por los distintos menues</returns>
+        public static bool agregarUsuario(bool continuar)
         {
 
             //Cargar nuevo usuario
             string[,] elemAgregar = Procedimientos.armarMatrizDatosNuevos(matrizUsuarios);
 
-            //Agregar usuario
+            //Agregar usuario a la mtriz
             matrizUsuarios = Procedimientos.agregarElementoMatrizStr(matrizUsuarios, elemAgregar);
 
-            exit = false;
+            continuar = Validaciones.validarSalir("\n\n Presione ENTER para agregar otro usuario o ESC para volver al menú anterior", continuar);
+
+            return continuar;
+        }
+
+        public static bool modificarUsuario(string id, bool exit)
+        {
+
+
 
             return exit;
         }
