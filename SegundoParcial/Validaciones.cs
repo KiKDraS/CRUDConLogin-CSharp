@@ -75,19 +75,100 @@ namespace SegundoParcial
 
         //VALIDACIONS MATRICES
 
-        public static void validarCargaDatos<T>(T[,] auxMatriz)
+        public static string[,] validarCargaDatos(string[,] auxMatriz, string[,]auxOriginal)
         {
             bool continuar = true;
 
-            Console.WriteLine("Revise los datos ingresados: ");
-            //Procedimientos.imprirFilaColumMatriz(matrizOriginal, 0, 0);
-            Procedimientos.imprimirMatriz(auxMatriz);
+            Console.Clear();
+            Visualizacion.titulo();
+            Console.WriteLine("Datos ingresados:\n");
+            for (int i = 0; i < auxMatriz.GetLength(0); i++)
+            {
+                Procedimientos.imprimirMatriz(auxOriginal);
+                Procedimientos.imprimirMatriz(auxMatriz);
+            }
+            
+            continuar = validarSalir("\n\nSi los datos son correctos presione ESC. Si quiere cambiarlos presione ENTER", continuar);            
 
             while (continuar)
             {
-                continuar = validarSalir("Si los datos son correctos presione ESC. Si quiere cambiarlos presione ENTER", continuar);
+                Console.Clear();
+                Visualizacion.titulo();
+                Console.WriteLine("Datos ingresados:\n");
+                for (int i = 0; i < auxMatriz.GetLength(0); i++)
+                {
+                    Procedimientos.imprimirMatriz(auxOriginal);
+                    Procedimientos.imprimirMatriz(auxMatriz);
+                }
+                int cantidadImpresa = Procedimientos.menuOpcionesMatriz(auxOriginal, 0);
+                Console.WriteLine("");
+                Console.WriteLine("");
+                int opcion = validarOpcionMatiz("\nSeleccione dato a cambiar: ", cantidadImpresa ,auxOriginal);
+                Console.Write($"Escriba nuevo {auxOriginal[0, opcion]}: ");
+                string dato = Console.ReadLine();
+                auxMatriz[0, opcion] = dato;
+                continuar = validarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", continuar);
             }
+
+            return auxMatriz;
         }
+
+        public static int validarID(string mensaje, string[,] auxMatriz)
+        {
+            int id = -1;
+
+            Console.Write(mensaje);
+
+            while (!int.TryParse(Console.ReadLine(), out id))
+            {
+                Console.WriteLine("El ID debe ser numérico");
+
+            }
+
+            while (id == -1)
+            {
+                for (int i = 0; i < auxMatriz.GetLength(0); i++)
+                {
+                    if (auxMatriz[i, 0] == id.ToString())
+                    {
+                        int.TryParse(auxMatriz[i, 0], out id);
+                        break;
+                    }
+                    else
+                    {
+                        Console.WriteLine("ID no encontrado. Ingrese un nuevo ID");
+                        while (!int.TryParse(Console.ReadLine(), out id))
+                        {
+                            Console.WriteLine("El ID debe ser numérico");
+
+                        }
+                    }
+                }
+            }                                    
+            
+            return id;
+        }
+
+        public static int validarOpcionMatiz<T>(string mensaje, int opciones, T[,] auxMatriz)
+        {
+            int opcionValidada = -1;
+            int max = opciones + 1;
+
+            Console.Write(mensaje);
+ 
+            while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
+            {
+                Console.Clear();
+                Visualizacion.titulo();
+                Procedimientos.menuOpcionesMatriz(auxMatriz, 0);
+                Console.WriteLine("Error, reingresar un valor correcto");
+            }
+
+            return opcionValidada;
+        }
+
+
+
 
 
         //VALIDACIONES ARRAYS
@@ -161,5 +242,6 @@ namespace SegundoParcial
             
             return exit;
         }
+
     }
 }

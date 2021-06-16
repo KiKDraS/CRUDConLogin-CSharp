@@ -8,26 +8,28 @@ namespace SegundoParcial
 {
     public static class Usuarios
     {
-        public static string[,] matrizUsuarios = new string[5, 3]
-        {
-            //ID     //User              //Pass   
+        public static string[,] matrizUsuarios = new string[4, 3]
+        {  
             {"ID",   "Usuario",         "Password"},
             {"1",    "Admin",            "admin"},
-            {"",     "" ,                ""},
-            {"3",    "Vendedor1",        "vendedor1"},
-            {"4",    "Vendedor2",        "vendedor2"}
+            {"2",    "Vendedor1",        "vendedor1"},
+            {"3",    "Vendedor2",        "vendedor2"}
         };
 
         //CRUD
 
-        public static void agregarUsuario(string[,] matrizUsuarios)
+        public static bool agregarUsuario(bool exit)
         {
+
+            //Cargar nuevo usuario
             string[,] elemAgregar = Procedimientos.armarMatrizDatosNuevos(matrizUsuarios);
-            //Validación de carga
-            Console.WriteLine("Revise los datos ingresados: ");
-            Procedimientos.imprimirMatriz(elemAgregar);
-            Validaciones.validarCargaDatos(elemAgregar);
-            Procedimientos.agregarElementoMatrizStr(matrizUsuarios, elemAgregar);
+
+            //Agregar usuario
+            matrizUsuarios = Procedimientos.agregarElementoMatrizStr(matrizUsuarios, elemAgregar);
+
+            exit = false;
+
+            return exit;
         }
 
         /// <summary>

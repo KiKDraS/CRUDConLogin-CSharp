@@ -152,14 +152,41 @@ namespace SegundoParcial
                         //Mostrar/Agregar
                         Console.Clear();
                         titulo();
-                        Console.WriteLine("Modificar usuario");
+                        Console.WriteLine("Lista de usuarios\n\n");
                         Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
-                        Console.ReadKey();
+                        exit = Validaciones.validarSalir("\n\nPresione Enter para agregar usuario o ESC para volver al menú anterior", exit);
+
+                        while(exit)
+                        {
+                            Console.Clear();
+                            titulo();
+                            Console.WriteLine("Agregar Nuevo Usuario\n");
+                            exit = Usuarios.agregarUsuario(exit);
+
+                        } 
                             break;
 
                         case 2:
-                            //Modificar
-                            break;
+                        //Modificar
+                        Console.Clear();
+                        titulo();
+                        Console.WriteLine("Lista de usuarios");
+                        Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
+                        exit = Validaciones.validarSalir("Presione Enter para modificar usuario o ESC para volver al menú anterior", exit);
+                        do
+                        {
+                            int idSeleccionado;
+
+                            Console.Clear();
+                            titulo();
+                            Console.WriteLine("Modificar usuario");
+                            Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
+                            //Seleccionar usuario
+                            idSeleccionado = Validaciones.validarID("Ingrese ID de usuario a modificar", Usuarios.matrizUsuarios);
+                            //Modificar usuario
+
+                        } while (exit);
+                        break;
 
                         case 3:
                             //Eliminar
