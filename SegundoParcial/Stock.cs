@@ -12,7 +12,7 @@ namespace SegundoParcial
 
         public static string[,] libros = new string[11, 4]
         {
-                {"ID",  "Titulo",   "Autor",    "Género" },         
+                {"ID",  "Titulo",   "Autor",    "Género" },
                 {"1",   "Elantris",   "Brandon Sanderson",    "Fantasía épica" },
                 {"",   "",   "",    "" },
                 {"3",   "Juego de Tronos",   "George R.R. Martin",    "Fantasía épica" },
@@ -59,6 +59,90 @@ namespace SegundoParcial
             continuar = Validaciones.validarSalir("\n\n Presione ENTER para agregar otro libro o ESC para volver al menú anterior", continuar);
 
             return continuar;
+        }
+
+        public static bool modificarLibro(string id, bool exit)
+        {
+            int indice = -1;
+            string dato;
+
+            while (exit)
+            {
+                //Imprimir usuario seleccionado
+                Console.Clear();
+                Visualizacion.titulo();
+                Console.WriteLine("Datos de libro a modificar: \n");
+                for (int i = 0; i < libros.GetLength(0); i++)
+                {
+                    if (libros[i, 0].ToString() == id)
+                    {
+                        indice = i;
+                        break;
+                    }
+                }
+                for (int i = 0; i < libros.GetLength(1); i++)
+                {
+                    Console.WriteLine($"{libros[0, i]}: {libros[indice, i]}");
+                }
+
+                //Seleccionar dato a modificar
+                Console.WriteLine("");
+                Console.WriteLine("");
+                int cantidadImpresa = Procedimientos.menuOpcionesMatriz(libros, 0);
+                Console.WriteLine("");
+                int opcion = Validaciones.validarOpcionMatiz("Seleccione dato a modificar: ", cantidadImpresa, libros);
+
+                //Modificar dato
+                Console.Write($"Escriba nuevo {libros[0, opcion]}: ");
+                dato = Console.ReadLine();
+                libros[indice, opcion] = dato;
+                exit = Validaciones.validarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", exit);
+
+            }
+
+            return exit;
+        }
+
+        public static bool eliminarLibro(string id, bool exit)
+        {
+            int indice = -1;
+            bool borrar = true;
+
+            //Imprimir usuario seleccionado
+            Console.Clear();
+            Visualizacion.titulo();
+            Console.WriteLine("Datos del libro a eliminar: \n");
+            for (int i = 0; i < libros.GetLength(0); i++)
+            {
+                if (libros[i, 0].ToString() == id)
+                {
+                    indice = i;
+                    break;
+                }
+            }
+            for (int i = 0; i < libros.GetLength(1); i++)
+            {
+                Console.WriteLine($"{libros[0, i]}: {libros[indice, i]}");
+            }
+
+            borrar = Validaciones.validarSalir("\nSi es correcto, presione ENTER. De lo contrario, presione ESC", borrar);
+
+            //Eliminar usuario                             
+
+            if (borrar)
+            {
+                Console.Clear();
+                Visualizacion.titulo();
+                for (int i = 0; i < libros.GetLength(1); i++)
+                {
+                    libros[indice, i] = "";
+
+                }
+                Console.WriteLine("Usuario eliminado");
+                exit = Validaciones.validarSalir("\nPresione ESC para volver al menú anterior", exit);
+            }
+
+            return exit;
         }
     }
 }

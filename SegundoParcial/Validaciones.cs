@@ -105,9 +105,11 @@ namespace SegundoParcial
                         Procedimientos.imprimirMatriz(auxOriginal);
                         Procedimientos.imprimirMatriz(auxMatriz);
                     }
+                    Console.WriteLine("");
+                    Console.WriteLine("");
                     int cantidadImpresa = Procedimientos.menuOpcionesMatriz(auxOriginal, 0);
                     Console.WriteLine("");                
-                    int opcion = validarOpcionMatiz("Seleccione dato a cambiar: ", cantidadImpresa, auxOriginal);
+                    int opcion = validarOpcionMatiz("Seleccione dato a modificar: ", cantidadImpresa, auxOriginal);
                     Console.Write($"Escriba nuevo {auxOriginal[0, opcion]}: ");
                     string dato = Console.ReadLine();
                     auxMatriz[0, opcion] = dato;
@@ -125,36 +127,36 @@ namespace SegundoParcial
             /// <returns>Interger que representa el ID validado</returns>
             public static int validarID(string mensaje, string[,] auxMatriz)
             {
-                int id = -1;
+                int id;
+                int aux = -1;
 
                 Console.Write(mensaje);
 
-                while (!int.TryParse(Console.ReadLine(), out id))
+                do
                 {
-                    Console.WriteLine("El ID debe ser numérico");
 
-                }
+                    while (!int.TryParse(Console.ReadLine(), out id))
+                    {
+                        Console.WriteLine("El ID debe ser numérico");
 
-                while (id == -1)
-                {
+                    }
+
                     for (int i = 0; i < auxMatriz.GetLength(0); i++)
                     {
                         if (auxMatriz[i, 0] == id.ToString())
                         {
                             int.TryParse(auxMatriz[i, 0], out id);
+                            aux = id;
                             break;
                         }
-                        else
-                        {
-                            Console.WriteLine("ID no encontrado. Ingrese un nuevo ID");
-                            while (!int.TryParse(Console.ReadLine(), out id))
-                            {
-                                Console.WriteLine("El ID debe ser numérico");
-
-                            }
-                        }
                     }
-                }
+
+                    if (aux == -1)
+                    {
+                        Console.Write("ID no encontrador. Ingrese uno nuevo: ");
+                    }                    
+
+                } while (aux == -1);
 
                 return id;
             }

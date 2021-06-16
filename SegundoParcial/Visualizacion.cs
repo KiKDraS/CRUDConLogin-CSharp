@@ -189,16 +189,36 @@ namespace SegundoParcial
                             Console.WriteLine("Modificar usuario\n");
                             Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
                             //Seleccionar usuario
-                            idSeleccionado = Validaciones.validarID("Ingrese ID de usuario a modificar", Usuarios.matrizUsuarios);
+                            idSeleccionado = Validaciones.validarID("\nIngrese ID del usuario a modificar: ", Usuarios.matrizUsuarios);
                             //Modificar usuario
-
+                            continuar = Usuarios.modificarUsuario(idSeleccionado.ToString(), continuar);
                         } 
 
                         break;
 
                         case 3:
-                            //Eliminar
-                            break;
+
+                        //Eliminar
+                        Console.Clear();
+                        titulo();
+                        Console.WriteLine("Lista de usuarios\n\n");
+                        Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
+                        continuar = Validaciones.validarSalir("\n\nPresione Enter para eliminar usuario o ESC para volver al menú anterior", continuar);
+                        while (continuar)
+                        {
+                            int idSeleccionado;
+
+                            Console.Clear();
+                            titulo();
+                            Console.WriteLine("Eliminar usuario\n");
+                            Procedimientos.imprimirMatriz(Usuarios.matrizUsuarios);
+                            //Seleccionar usuario
+                            idSeleccionado = Validaciones.validarID("\nIngrese ID del usuario a eliminar: ", Usuarios.matrizUsuarios);
+                            //Eliminar usuario
+                            continuar = Usuarios.eliminarUsuario(idSeleccionado.ToString(), continuar);
+                        }
+
+                        break;
 
                         case 4:
                             exit = false;
@@ -243,10 +263,53 @@ namespace SegundoParcial
                         break;
 
                         case 2:
-                            break;
+
+                        //Modificar
+                        Console.Clear();
+                        titulo();
+                        Console.WriteLine("Lista de libros en Stock\n");
+                        Procedimientos.imprimirMatriz(Stock.libros);
+                        continuar = Validaciones.validarSalir("\n\nPresione Enter para modificar libro o ESC para volver al menú anterior", continuar);
+
+                        while (continuar)
+                        {
+                            int idSeleccionado;
+
+                            Console.Clear();
+                            titulo();
+                            Console.WriteLine("Modificar libro\n");
+                            Procedimientos.imprimirMatriz(Stock.libros);
+                            //Seleccionar libro
+                            idSeleccionado = Validaciones.validarID("\nIngrese ID del libro a modificar: ", Stock.libros);
+                            //Modificar libro
+                            continuar = Stock.modificarLibro(idSeleccionado.ToString(), continuar);
+                        }
+
+                        break;
 
                         case 3:
-                            break;
+
+                        //Eliminar
+                        Console.Clear();
+                        titulo();
+                        Console.WriteLine("Lista de libros en Stock\n\n");
+                        Procedimientos.imprimirMatriz(Stock.libros);
+                        continuar = Validaciones.validarSalir("\n\nPresione Enter para eliminar libro o ESC para volver al menú anterior", continuar);
+                        while (continuar)
+                        {
+                            int idSeleccionado;
+
+                            Console.Clear();
+                            titulo();
+                            Console.WriteLine("Eliminar libro\n");
+                            Procedimientos.imprimirMatriz(Stock.libros);
+                            //Seleccionar usuario
+                            idSeleccionado = Validaciones.validarID("\nIngrese ID del libro a eliminar: ", Stock.libros);
+                            //Eliminar usuario
+                            continuar = Stock.eliminarLibro(idSeleccionado.ToString(), continuar);
+                        }
+
+                        break;
 
                         case 4:
                             exit = false;

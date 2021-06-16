@@ -45,7 +45,7 @@ namespace SegundoParcial
                     if (!string.IsNullOrEmpty(auxMatriz[numFila, i].ToString()) || auxMatriz[numFila, i].ToString() != "0")
                     {
                         cantidadImpresa++;
-                        Console.WriteLine($"\n\n{i}. {auxMatriz[numFila, i]}");
+                        Console.WriteLine($"{i}. {auxMatriz[numFila, i]}");
                     }
                 }
 
@@ -81,8 +81,23 @@ namespace SegundoParcial
                     int columnasOriginal = matrizOriginal.GetLength(1);
                     string[,] auxOriginal = new string[1, columnasOriginal];
                     string[,] elemAgregar = new string[1, columnasOriginal];
-                    int id = matrizOriginal.GetLength(0);
+                    int id = -1; 
                     int datos = 1;
+
+                    //Creación de ID
+
+                    for (int i = 0; i < matrizOriginal.GetLength(0); i++)
+                    {
+                        if (string.IsNullOrEmpty(matrizOriginal[i, 0].ToString()) || matrizOriginal[i, 0].ToString() == "0")
+                        {
+                            id = i;
+                            break;
+                        }
+                        else
+                        {
+                            id = matrizOriginal.GetLength(0);
+                        }
+                    }
 
                     //Carga de datos en Matriz
 
@@ -143,7 +158,7 @@ namespace SegundoParcial
                     {
                         for (int i = 0; i < matrizOriginal.GetLength(1); i++)
                         {
-                            matrizOriginal[indice - 1, i] = elemAgregar[0, i];
+                            matrizOriginal[indice, i] = elemAgregar[0, i];
                         }
 
                     }
