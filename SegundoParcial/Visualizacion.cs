@@ -111,15 +111,18 @@ namespace SegundoParcial
                     switch (opcion)
                     {
                         case 1:
-                            menuCrudUsuarios(usuario, exit);
+                        //CRUD usuarios
+                        menuCrudUsuarios(usuario, exit);
                             break;
 
                         case 2:
-                            menuCrudStock(usuario, exit);
+                        //CRUD stock
+                        menuCrudStock(usuario, exit);
                             break;
 
                         case 3:
-                            //Ventas
+                        //Ventas
+                        menuVentas(usuario, exit);
                             break;
 
                         case 4:

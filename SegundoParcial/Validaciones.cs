@@ -186,6 +186,17 @@ namespace SegundoParcial
                 return opcionValidada;
             }
 
+            public static float validarFloat(string dato)
+            {
+                float datoFloat; 
+                while(!float.TryParse(dato, out datoFloat))
+                {
+                    Console.Write("Ingrese un valor numérico: ");
+                    dato = Console.ReadLine();
+                }
+
+                return datoFloat;
+            }
 
         #endregion
 

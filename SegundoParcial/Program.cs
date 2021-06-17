@@ -51,7 +51,7 @@ namespace SegundoParcial
 
             App();
 
-            Console.ReadKey();
+            //Console.ReadKey();
         }
     }
 }

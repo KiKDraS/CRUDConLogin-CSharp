@@ -17,12 +17,12 @@ namespace SegundoParcial
                 {
                     if (!string.IsNullOrEmpty(auxMatriz[i, 1].ToString()) || auxMatriz[i, 1].ToString() == "0")
                     {
-                        Console.Write("| ");
+                        Console.Write("|");
                         for (int j = 0; j < auxMatriz.GetLength(1); j++)
                         {
                             if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()) || auxMatriz[i, j].ToString() == "0")
-                            {
-                                Console.Write($"{auxMatriz[i, j],-26} | ");
+                            {                               
+                                Console.Write($"{auxMatriz[i, j], -18}|");
                             }
                         }
                         Console.WriteLine("");
@@ -106,10 +106,15 @@ namespace SegundoParcial
                     while (datos < columnasOriginal)
                     {
                         for (int i = 1; i < columnasOriginal; i++)
-                        {
+                        {                            
                             auxOriginal[0, i] = matrizOriginal[0, i].ToString();
-                            Console.Write($"{matrizOriginal[0, i]}: ");
+                            Console.Write($"{matrizOriginal[0, i]}: ");                            
                             string dato = Console.ReadLine();
+                            if (auxOriginal[0, i] == "Cantidad" || auxOriginal[0, i] == "Precio")
+                            {
+                                float datoFloat = Validaciones.validarFloat(dato);
+                                dato = datoFloat.ToString();
+                            }
                             elemAgregar[0, i] = dato;
                             datos++;
                         }
@@ -166,12 +171,57 @@ namespace SegundoParcial
                     return matrizOriginal;
                 }
 
+                public static float[,] agregarElementoMatrizFloat(float[,] matrizOriginal, string[,] elemAgregar)
+                {
+                    int indice = -1;
+
+                    //Buscar espacios vacíos en la Matriz
+
+                    for (int i = 0; i < matrizOriginal.GetLength(0); i++)
+                    {
+                        if (matrizOriginal[i, 1] == 0)
+                        {
+                            indice = i;
+                            break;
+                        }
+                    }
+
+                    //Cargar datos nuevos
+
+                    if (indice == -1)
+                    {
+                        indice = matrizOriginal.GetLength(0) + 1;
+                        ResizeArray<float>(ref matrizOriginal, indice, 3);
+                        for (int i = 0; i < elemAgregar.GetLength(1); i++)
+                        {
+                            float dato;
+                            float.TryParse(elemAgregar[0, i], out dato);
+                            matrizOriginal[indice - 1, i] = dato;
+                        }
+                    }
+                    else
+                    {
+                        float dato;
+                        float.TryParse(elemAgregar[0, 0], out dato);
+                        matrizOriginal[indice, 0] = dato;
+                        for (int i = 1; i < matrizOriginal.GetLength(1); i++)
+                        {                            
+                            float.TryParse(elemAgregar[0, i+3], out dato);
+                            matrizOriginal[indice, i] = dato;
+                        }
+
+                    }
+
+                    return matrizOriginal;
+
+                }
+
 
             #endregion
 
         #endregion
 
-        #region Procedimientos de Arrray
+        #region Procedimientos de Array
 
             /// <summary>
             ///     Impresión de Array. Pasar null en el segundo parámetro si no es necesario evaluar usuario logueado

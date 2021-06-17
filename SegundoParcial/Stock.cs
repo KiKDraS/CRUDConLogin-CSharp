@@ -10,33 +10,34 @@ namespace SegundoParcial
     {
         //Matrices y arrays iniciales
 
-        public static string[,] libros = new string[11, 4]
+        public static string[,] libros = new string[11, 6]
         {
-                {"ID",  "Titulo",   "Autor",    "Género" },
-                {"1",   "Elantris",   "Brandon Sanderson",    "Fantasía épica" },
-                {"",   "",   "",    "" },
-                {"3",   "Juego de Tronos",   "George R.R. Martin",    "Fantasía épica" },
-                {"",   "",   "",    "" },
-                {"5",   "El factor Scarpetta",   "Patricia Cornwell",    "Policial" },
-                {"",   "",   "",    "" },
-                {"7",   "La perfección del silencio",   "Clara Asunción García",    "Romance" },
-                {"",   "",   "",    "" },
-                {"9",   "La filosofía de House",   "W. Irvin y H. Jacoby",    "Filosofía" },
-                {"",  "",   "",    "" }
+                {"ID",  "Titulo",   "Autor",    "Género", "Cantidad", "Precio" },
+                {"1",   "Elantris",   "Brandon Sanderson",    "Fantasía épica", "10", "150" },
+                {"",   "",   "",    "", "", "" },
+                {"3",   "Juego de Tronos",   "George R.R. Martin",    "Fantasía épica", "15", "200" },
+                {"",   "",   "",    "", "", "" },
+                {"5",   "El fact Scarpetta",   "Patricia Cornwell",    "Policial", "20", "130" },
+                {"",   "",   "",    "", "", "" },
+                {"7",   "La perf silencio",   "Clara García",    "Romance", "30", "160" },
+                {"",   "",   "",    "", "", "" },
+                {"9",   "La filo de House",   "Irvin y Jacoby",    "Filosofía", "15", "100" },
+                {"",  "",   "",    "", "", "" }
         };
 
-        public static float[,] precioCantidad = new float[10, 3]
+        public static float[,] precioCantidad = new float[11, 3]
         {
                 //ID //Cantidad  //Precio
-                {1,     0,          0},
+                {-2,     -2,          -2},
+                {1,     10,          150},
                 {0,     0,          0},
-                {3,     0,          0},
+                {3,     15,          200},
                 {0,     0,          0},
-                {5,     0,          0},
+                {5,     20,          130},
                 {0,     0,          0},
-                {7,     0,          0},
+                {7,     30,          160},
                 {0,     0,          0},
-                {9,     0,          0},
+                {9,     15,          100},
                 {0,     0,          0}
         };
 
@@ -56,6 +57,9 @@ namespace SegundoParcial
             //Agregar libro a la matriz
             libros = Procedimientos.agregarElementoMatrizStr(libros, elemAgregar);
 
+            //Agregar cantidad-precio
+            precioCantidad = Procedimientos.agregarElementoMatrizFloat(precioCantidad, elemAgregar);
+
             continuar = Validaciones.validarSalir("\n\n Presione ENTER para agregar otro libro o ESC para volver al menú anterior", continuar);
 
             return continuar;
@@ -68,7 +72,7 @@ namespace SegundoParcial
 
             while (exit)
             {
-                //Imprimir usuario seleccionado
+                //Imprimir libro seleccionado
                 Console.Clear();
                 Visualizacion.titulo();
                 Console.WriteLine("Datos de libro a modificar: \n");
@@ -93,9 +97,29 @@ namespace SegundoParcial
                 int opcion = Validaciones.validarOpcionMatiz("Seleccione dato a modificar: ", cantidadImpresa, libros);
 
                 //Modificar dato
-                Console.Write($"Escriba nuevo {libros[0, opcion]}: ");
-                dato = Console.ReadLine();
-                libros[indice, opcion] = dato;
+                if(libros[0, opcion].ToString() == "Cantidad" || libros[0, opcion].ToString() == "Precio")
+                {
+                    Console.Write($"Escriba nuevo {libros[0, opcion]}: ");
+                    dato = Console.ReadLine();
+                    float datoFloat = Validaciones.validarFloat(dato);
+                    libros[indice, opcion] = datoFloat.ToString();
+                    if (libros[0, opcion].ToString() == "Cantidad")
+                    {
+                        precioCantidad[indice, 1] = datoFloat;
+                    }
+                    else
+                    {
+                        precioCantidad[indice, 2] = datoFloat;
+                    }
+
+                }
+                else
+                {
+                    Console.Write($"Escriba nuevo {libros[0, opcion]}: ");
+                    dato = Console.ReadLine();
+                    libros[indice, opcion] = dato;
+                }
+                
                 exit = Validaciones.validarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", exit);
 
             }
@@ -138,7 +162,11 @@ namespace SegundoParcial
                     libros[indice, i] = "";
 
                 }
-                Console.WriteLine("Usuario eliminado");
+                for (int i = 0; i < precioCantidad.GetLength(1); i++)
+                {
+                    precioCantidad[indice, i] = 0;
+                }
+                Console.WriteLine("Libro eliminado");
                 exit = Validaciones.validarSalir("\nPresione ESC para volver al menú anterior", exit);
             }
 
