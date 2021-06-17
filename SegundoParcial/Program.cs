@@ -39,7 +39,7 @@ namespace SegundoParcial
                         break;
                 }
 
-                exit = Validaciones.validarSalir("\nPresione ENTER para volver al login o ESC para salir de la aplicación", exit);
+                exit = Validaciones.ValidarSalir("\nPresione ENTER para volver al login o ESC para salir de la aplicación", exit);
 
             } while (exit);
         }

@@ -23,21 +23,27 @@ namespace SegundoParcial
         /// </summary>
         /// <param name="exit">Booleano para manejar la nevegación por los distintos menues</param>
         /// <returns>Booleano para manejar navegación por los distintos menues</returns>
-        public static bool agregarUsuario(bool continuar)
+        public static bool AgregarUsuario(bool continuar)
         {
 
             //Cargar nuevo usuario
-            string[,] elemAgregar = Procedimientos.armarMatrizDatosNuevos(matrizUsuarios);
+            string[,] elemAgregar = Procedimientos.ArmarMatrizDatosNuevos(matrizUsuarios);
 
             //Agregar usuario a la matriz
-            matrizUsuarios = Procedimientos.agregarElementoMatrizStr(matrizUsuarios, elemAgregar);
+            matrizUsuarios = Procedimientos.AgregarElementoMatrizStr(matrizUsuarios, elemAgregar);
 
-            continuar = Validaciones.validarSalir("\n\n Presione ENTER para agregar otro usuario o ESC para volver al menú anterior", continuar);
+            continuar = Validaciones.ValidarSalir("\n\n Presione ENTER para agregar otro usuario o ESC para volver al menú anterior", continuar);
 
             return continuar;
         }
 
-        public static bool modificarUsuario(string id, bool exit)
+        /// <summary>
+        ///     Método para modificar dato en matrizUsuarios
+        /// </summary>
+        /// <param name="id">ID del usuario a modificar</param>
+        /// <param name="exit">Boolano que maneja la navegación</param>
+        /// <returns>Booleano que maneja la navegación</returns>
+        public static bool ModificarUsuario(string id, bool exit)
         {
             int indice = -1;
             string dato;
@@ -61,14 +67,7 @@ namespace SegundoParcial
                 Console.Clear();
                 Visualizacion.titulo();
                 Console.WriteLine("Datos de usuario a modificar: \n");
-                for (int i = 0; i < matrizUsuarios.GetLength(0); i++)
-                {
-                    if (matrizUsuarios[i, 0].ToString() == id)
-                    {
-                        indice = i;
-                        break;
-                    }
-                }
+                indice = Procedimientos.EncontrarIndice(matrizUsuarios, id);
                 for (int i = 0; i < matrizUsuarios.GetLength(1); i++)
                 {
                     Console.WriteLine($"{matrizUsuarios[0, i]}: {matrizUsuarios[indice, i]}");
@@ -77,22 +76,28 @@ namespace SegundoParcial
                 //Seleccionar dato a modificar
                 Console.WriteLine("");
                 Console.WriteLine("");
-                int cantidadImpresa = Procedimientos.menuOpcionesMatriz(matrizUsuarios, 0);
+                int cantidadImpresa = Procedimientos.MenuOpcionesMatriz(matrizUsuarios, 0);
                 Console.WriteLine("");                
-                int opcion = Validaciones.validarOpcionMatiz("Seleccione dato a modificar: ", cantidadImpresa, matrizUsuarios);
+                int opcion = Validaciones.ValidarOpcionMatiz("Seleccione dato a modificar: ", cantidadImpresa, matrizUsuarios);
 
                 //Modificar dato
                 Console.Write($"Escriba nuevo {matrizUsuarios[0, opcion]}: ");
                 dato = Console.ReadLine();
                 matrizUsuarios[indice, opcion] = dato;
-                exit = Validaciones.validarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", exit);
+                exit = Validaciones.ValidarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", exit);
 
             } 
             
             return exit;
         }
 
-        public static bool eliminarUsuario(string id, bool exit)
+        /// <summary>
+        ///     Método para eliminar dato en matrizUsuarios
+        /// </summary>
+        /// <param name="id">ID del usuario a eliminar</param>
+        /// <param name="exit">Boolano que maneja la navegación</param>
+        /// <returns>Boolano que maneja la navegación</returns>
+        public static bool EliminarUsuario(string id, bool exit)
         {
             int indice = -1;
             bool borrar = true;
@@ -112,20 +117,13 @@ namespace SegundoParcial
                 Console.Clear();
                 Visualizacion.titulo();
                 Console.WriteLine("Datos del usuario a eliminar: \n");
-                for (int i = 0; i < matrizUsuarios.GetLength(0); i++)
-                {
-                    if (matrizUsuarios[i, 0].ToString() == id)
-                    {
-                        indice = i;
-                        break;
-                    }
-                }
+                indice = Procedimientos.EncontrarIndice(matrizUsuarios, id);
                 for (int i = 0; i < matrizUsuarios.GetLength(1); i++)
                 {
                     Console.WriteLine($"{matrizUsuarios[0, i]}: {matrizUsuarios[indice, i]}");
                 }
 
-                borrar = Validaciones.validarSalir("\nSi es correcto, presione ENTER. De lo contrario, presione ESC", borrar);
+                borrar = Validaciones.ValidarSalir("\nSi es correcto, presione ENTER. De lo contrario, presione ESC", borrar);
 
                 //Eliminar usuario                             
 
@@ -139,7 +137,7 @@ namespace SegundoParcial
 
                     }
                     Console.WriteLine("Usuario eliminado");
-                    exit = Validaciones.validarSalir("\nPresione ESC para volver al menú anterior", exit);
+                    exit = Validaciones.ValidarSalir("\nPresione ESC para volver al menú anterior", exit);
                 }
 
             }
@@ -151,7 +149,7 @@ namespace SegundoParcial
         ///     Método para evitar que se muestre la escritura de la contraseña en pantalla
         /// </summary>
         /// <returns>Password completa</returns>
-        public static string ocultarPass()
+        public static string OcultarPass()
         {
             StringBuilder password = new StringBuilder();
 

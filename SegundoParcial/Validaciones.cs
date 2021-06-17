@@ -54,7 +54,7 @@ namespace SegundoParcial
             public static string validarPass(string mensaje, string[,] auxMatriz, int usuarioSeleccionado)
             {
                 Console.Write(mensaje);
-                string pass = Usuarios.ocultarPass().Trim();
+                string pass = Usuarios.OcultarPass().Trim();
 
                 while (pass != auxMatriz[usuarioSeleccionado, 2])
                 {
@@ -62,7 +62,7 @@ namespace SegundoParcial
                     Visualizacion.titulo();
                     Console.WriteLine($"Usuario seleccionado: {Usuarios.matrizUsuarios[usuarioSeleccionado, 1]}");
                     Console.Write("Contraseña incorrecta. Vuelva a ingresarla: ");
-                    pass = Usuarios.ocultarPass();
+                    pass = Usuarios.OcultarPass();
                 }
 
                 string usuario = Usuarios.matrizUsuarios[usuarioSeleccionado, 1];
@@ -80,7 +80,7 @@ namespace SegundoParcial
             /// <param name="auxMatriz">Matriz de datos nuevos a cargar</param>
             /// <param name="auxOriginal">Matriz en la que se cargarán los datos</param>
             /// <returns>Matriz de datos validados</returns>
-            public static string[,] validarCargaDatos(string[,] auxMatriz, string[,] auxOriginal)
+            public static string[,] ValidarCargaDatos(string[,] auxMatriz, string[,] auxOriginal)
             {
                 bool continuar = true;
 
@@ -89,11 +89,11 @@ namespace SegundoParcial
                 Console.WriteLine("Datos ingresados:\n");
                 for (int i = 0; i < auxMatriz.GetLength(0); i++)
                 {
-                    Procedimientos.imprimirMatriz(auxOriginal);
-                    Procedimientos.imprimirMatriz(auxMatriz);
+                    Procedimientos.ImprimirMatriz(auxOriginal);
+                    Procedimientos.ImprimirMatriz(auxMatriz);
                 }
 
-                continuar = validarSalir("\n\nSi los datos son correctos presione ESC. Si quiere cambiarlos presione ENTER", continuar);
+                continuar = ValidarSalir("\n\nSi los datos son correctos presione ESC. Si quiere cambiarlos presione ENTER", continuar);
 
                 while (continuar)
                 {
@@ -102,18 +102,18 @@ namespace SegundoParcial
                     Console.WriteLine("Datos ingresados:\n");
                     for (int i = 0; i < auxMatriz.GetLength(0); i++)
                     {
-                        Procedimientos.imprimirMatriz(auxOriginal);
-                        Procedimientos.imprimirMatriz(auxMatriz);
+                        Procedimientos.ImprimirMatriz(auxOriginal);
+                        Procedimientos.ImprimirMatriz(auxMatriz);
                     }
                     Console.WriteLine("");
                     Console.WriteLine("");
-                    int cantidadImpresa = Procedimientos.menuOpcionesMatriz(auxOriginal, 0);
+                    int cantidadImpresa = Procedimientos.MenuOpcionesMatriz(auxOriginal, 0);
                     Console.WriteLine("");                
-                    int opcion = validarOpcionMatiz("Seleccione dato a modificar: ", cantidadImpresa, auxOriginal);
+                    int opcion = ValidarOpcionMatiz("Seleccione dato a modificar: ", cantidadImpresa, auxOriginal);
                     Console.Write($"Escriba nuevo {auxOriginal[0, opcion]}: ");
                     string dato = Console.ReadLine();
                     auxMatriz[0, opcion] = dato;
-                    continuar = validarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", continuar);
+                    continuar = ValidarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", continuar);
                 }
 
                 return auxMatriz;
@@ -125,7 +125,7 @@ namespace SegundoParcial
             /// <param name="mensaje">Mensaje para pedir selección de ID</param>
             /// <param name="auxMatriz">Matriz para comprobar la existencia del ID</param>
             /// <returns>Interger que representa el ID validado</returns>
-            public static int validarID(string mensaje, string[,] auxMatriz)
+            public static int ValidarID(string mensaje, string[,] auxMatriz)
             {
                 int id;
                 int aux = -1;
@@ -168,7 +168,7 @@ namespace SegundoParcial
             /// <param name="opciones">Cantidad de opciones disponibles</param>
             /// <param name="auxMatriz">Matriz desde la que se creo el menú</param>
             /// <returns>Interger que representa la opción validada</returns>
-            public static int validarOpcionMatiz<T>(string mensaje, int opciones, T[,] auxMatriz)
+            public static int ValidarOpcionMatiz<T>(string mensaje, int opciones, T[,] auxMatriz)
             {
                 int opcionValidada = -1;
                 int max = opciones + 1;
@@ -179,14 +179,19 @@ namespace SegundoParcial
                 {
                     Console.Clear();
                     Visualizacion.titulo();
-                    Procedimientos.menuOpcionesMatriz(auxMatriz, 0);
+                    Procedimientos.MenuOpcionesMatriz(auxMatriz, 0);
                     Console.WriteLine("Error, reingresar un valor correcto");
                 }
 
                 return opcionValidada;
             }
 
-            public static float validarFloat(string dato)
+            /// <summary>
+            ///     Valida  el ingreso de un dato tipo float
+            /// </summary>
+            /// <param name="dato">Dato a validar</param>
+            /// <returns>Float validado</returns>
+            public static float ValidarFloat(string dato)
             {
                 float datoFloat; 
                 while(!float.TryParse(dato, out datoFloat))
@@ -210,7 +215,7 @@ namespace SegundoParcial
             /// <param name="auxArray">Array a partir del cual se imprime el menú</param>
             /// <param name="usuario">Usuario logueado</param>
             /// <returns></returns>
-            public static int validarOpcionArray<T>(string mensaje, int opciones, T[] auxArray, string usuario)
+            public static int ValidarOpcionArray<T>(string mensaje, int opciones, T[] auxArray, string usuario)
             {
                 int opcionValidada = -1;
                 int max = opciones + 1;
@@ -223,7 +228,7 @@ namespace SegundoParcial
                     {
                         Console.Clear();
                         Visualizacion.titulo();
-                        Procedimientos.imprimirArray(auxArray, usuario);
+                        Procedimientos.ImprimirArray(auxArray, usuario);
                         Console.WriteLine("Error, reingresar un valor correcto");
                     }
                 }
@@ -233,7 +238,7 @@ namespace SegundoParcial
                     {
                         Console.Clear();
                         Visualizacion.titulo();
-                        Procedimientos.imprimirArray(auxArray, usuario);
+                        Procedimientos.ImprimirArray(auxArray, usuario);
                         Console.WriteLine("Error, reingresar un valor correcto");
                     }
                 }
@@ -251,7 +256,7 @@ namespace SegundoParcial
             /// <param name="mensaje">Mensaje a imprimir en pantalla</param>
             /// <param name="exit">Booleano que maneja la salida</param>
             /// <returns>Estado del booleano</returns>
-            public static bool validarSalir(string mensaje, bool exit)
+            public static bool ValidarSalir(string mensaje, bool exit)
             {
                 Console.WriteLine(mensaje);
                 ConsoleKey salir = Console.ReadKey(true).Key;

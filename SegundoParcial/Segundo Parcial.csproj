@@ -49,6 +49,7 @@
     <Compile Include="Stock.cs" />
     <Compile Include="Usuarios.cs" />
     <Compile Include="Validaciones.cs" />
+    <Compile Include="Ventas.cs" />
     <Compile Include="Visualizacion.cs" />
   </ItemGroup>
   <ItemGroup>

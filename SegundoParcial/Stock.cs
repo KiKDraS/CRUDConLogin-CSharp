@@ -48,24 +48,30 @@ namespace SegundoParcial
         /// </summary>
         /// <param name="exit">Booleano para manejar la nevegación por los distintos menues</param>
         /// <returns>Booleano para manejar navegación por los distintos menues</returns>
-        public static bool agregarLibro(bool continuar)
+        public static bool AgregarLibro(bool continuar)
         {
 
             //Cargar nuevo libro
-            string[,] elemAgregar = Procedimientos.armarMatrizDatosNuevos(libros);
+            string[,] elemAgregar = Procedimientos.ArmarMatrizDatosNuevos(libros);
 
             //Agregar libro a la matriz
-            libros = Procedimientos.agregarElementoMatrizStr(libros, elemAgregar);
+            libros = Procedimientos.AgregarElementoMatrizStr(libros, elemAgregar);
 
             //Agregar cantidad-precio
-            precioCantidad = Procedimientos.agregarElementoMatrizFloat(precioCantidad, elemAgregar);
+            precioCantidad = Procedimientos.AgregarElementoMatrizFloat(precioCantidad, elemAgregar);
 
-            continuar = Validaciones.validarSalir("\n\n Presione ENTER para agregar otro libro o ESC para volver al menú anterior", continuar);
+            continuar = Validaciones.ValidarSalir("\n\n Presione ENTER para agregar otro libro o ESC para volver al menú anterior", continuar);
 
             return continuar;
         }
 
-        public static bool modificarLibro(string id, bool exit)
+        /// <summary>
+        ///     Método para modificar dato en libros
+        /// </summary>
+        /// <param name="id">ID del usuario a modificar</param>
+        /// <param name="exit">Boolano que maneja la navegación</param>
+        /// <returns>Booleano que maneja la navegación</returns>
+        public static bool ModificarLibro(string id, bool exit)
         {
             int indice = -1;
             string dato;
@@ -75,33 +81,25 @@ namespace SegundoParcial
                 //Imprimir libro seleccionado
                 Console.Clear();
                 Visualizacion.titulo();
-                Console.WriteLine("Datos de libro a modificar: \n");
-                for (int i = 0; i < libros.GetLength(0); i++)
-                {
-                    if (libros[i, 0].ToString() == id)
-                    {
-                        indice = i;
-                        break;
-                    }
-                }
+                Console.WriteLine("Datos del libro a modificar: \n");
+                indice = Procedimientos.EncontrarIndice(libros, id);
                 for (int i = 0; i < libros.GetLength(1); i++)
                 {
                     Console.WriteLine($"{libros[0, i]}: {libros[indice, i]}");
                 }
-
                 //Seleccionar dato a modificar
                 Console.WriteLine("");
                 Console.WriteLine("");
-                int cantidadImpresa = Procedimientos.menuOpcionesMatriz(libros, 0);
+                int cantidadImpresa = Procedimientos.MenuOpcionesMatriz(libros, 0);
                 Console.WriteLine("");
-                int opcion = Validaciones.validarOpcionMatiz("Seleccione dato a modificar: ", cantidadImpresa, libros);
+                int opcion = Validaciones.ValidarOpcionMatiz("Seleccione dato a modificar: ", cantidadImpresa, libros);
 
                 //Modificar dato
                 if(libros[0, opcion].ToString() == "Cantidad" || libros[0, opcion].ToString() == "Precio")
                 {
                     Console.Write($"Escriba nuevo {libros[0, opcion]}: ");
                     dato = Console.ReadLine();
-                    float datoFloat = Validaciones.validarFloat(dato);
+                    float datoFloat = Validaciones.ValidarFloat(dato);
                     libros[indice, opcion] = datoFloat.ToString();
                     if (libros[0, opcion].ToString() == "Cantidad")
                     {
@@ -120,14 +118,20 @@ namespace SegundoParcial
                     libros[indice, opcion] = dato;
                 }
                 
-                exit = Validaciones.validarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", exit);
+                exit = Validaciones.ValidarSalir("\n\nPresione ENTER para cambiar otro dato, ESC para continuar", exit);
 
             }
 
             return exit;
         }
 
-        public static bool eliminarLibro(string id, bool exit)
+        /// <summary>
+        ///     Método para eliminar dato en libros
+        /// </summary>
+        /// <param name="id">ID del usuario a eliminar</param>
+        /// <param name="exit">Boolano que maneja la navegación</param>
+        /// <returns>Boolano que maneja la navegación</returns>
+        public static bool EliminarLibro(string id, bool exit)
         {
             int indice = -1;
             bool borrar = true;
@@ -136,20 +140,13 @@ namespace SegundoParcial
             Console.Clear();
             Visualizacion.titulo();
             Console.WriteLine("Datos del libro a eliminar: \n");
-            for (int i = 0; i < libros.GetLength(0); i++)
-            {
-                if (libros[i, 0].ToString() == id)
-                {
-                    indice = i;
-                    break;
-                }
-            }
+            indice = Procedimientos.EncontrarIndice(libros, id);
             for (int i = 0; i < libros.GetLength(1); i++)
             {
                 Console.WriteLine($"{libros[0, i]}: {libros[indice, i]}");
             }
 
-            borrar = Validaciones.validarSalir("\nSi es correcto, presione ENTER. De lo contrario, presione ESC", borrar);
+            borrar = Validaciones.ValidarSalir("\nSi es correcto, presione ENTER. De lo contrario, presione ESC", borrar);
 
             //Eliminar usuario                             
 
@@ -167,10 +164,22 @@ namespace SegundoParcial
                     precioCantidad[indice, i] = 0;
                 }
                 Console.WriteLine("Libro eliminado");
-                exit = Validaciones.validarSalir("\nPresione ESC para volver al menú anterior", exit);
+                exit = Validaciones.ValidarSalir("\nPresione ESC para volver al menú anterior", exit);
             }
 
             return exit;
+        }
+
+        public static float ComprobarDisponibilidadStock(int indice, float cantidadSeleccionada)
+        {
+            while (cantidadSeleccionada > Stock.precioCantidad[indice, 1])
+            {
+                Console.Write("Stock insuficiente. Seleccione otra cantidad: ");
+                string dato = Console.ReadLine();
+                cantidadSeleccionada = Validaciones.ValidarFloat(dato);
+            }
+
+            return cantidadSeleccionada;
         }
     }
 }

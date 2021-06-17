@@ -11,7 +11,7 @@ namespace SegundoParcial
             ///     Impresión de Matriz
             /// </summary>
             /// <param name="auxMatriz">Matriz a imprimir</param>
-            public static void imprimirMatriz<T>(T[,] auxMatriz)
+            public static void ImprimirMatriz<T>(T[,] auxMatriz)
             {
                 for (int i = 0; i < auxMatriz.GetLength(0); i++)
                 {
@@ -32,11 +32,11 @@ namespace SegundoParcial
             }
 
             /// <summary>
-            ///     Método que permite imprimir fila específica de la matriz para crear un menú de opciones.
+            ///     Método para crear un menú de opciones a partir de la fila de una matriz.
             /// </summary>
             /// <param name="auxMatriz">Matiz a imprimir</param>
             /// <param name="numFila">Indice de la fila que se quiere imprimir</param>
-            public static int menuOpcionesMatriz<T>(T[,] auxMatriz, int numFila)
+            public static int MenuOpcionesMatriz<T>(T[,] auxMatriz, int numFila)
             {
                 int cantidadImpresa = 0;
 
@@ -51,14 +51,14 @@ namespace SegundoParcial
 
                 return cantidadImpresa;
             }
-
+          
             /// <summary>
             ///     Método para agrandar matriz
             /// </summary>
             /// <param name="original">Matriz a agrandar</param>
             /// <param name="newCoNum">Nuevo tamaño de columnas</param>
             /// <param name="newRoNum">Nuevo tamaño de filas</param>
-            static void ResizeArray<T>(ref T[,] original, int newCoNum, int newRoNum)
+            public static void ResizeArray<T>(ref T[,] original, int newCoNum, int newRoNum)
             {
                 var newArray = new T[newCoNum, newRoNum];
                 int columnCount = original.GetLength(1);
@@ -69,6 +69,28 @@ namespace SegundoParcial
                 original = newArray;
             }
 
+            /// <summary>
+            ///     Busca el indice en la matriz del elemento por ID
+            /// </summary>
+            /// <param name="auxMatriz">Matriz en la que se buscará el elemento</param>
+            /// <param name="id">ID del elemento a buscar</param>
+            /// <returns>Indice en matriz</returns>
+            public static int EncontrarIndice<T>(T[,]auxMatriz, string id)
+            {
+                int indice = -1;
+
+                for (int i = 0; i < auxMatriz.GetLength(0); i++)
+                {
+                    if (auxMatriz[i, 0].ToString() == id)
+                    {
+                        indice = i;
+                        break;
+                    }
+                }
+
+                return indice;
+            }            
+
             #region CRUD
 
                 /// <summary>
@@ -76,7 +98,7 @@ namespace SegundoParcial
                 /// </summary>
                 /// <param name="matrizOriginal">Matriz de referencia para la creación de la matriz auxiliar</param>
                 /// <returns>Matriz auxiliar con los datos para cargar en otra matriz</returns>
-                public static string[,] armarMatrizDatosNuevos<T>(T[,] matrizOriginal)
+                public static string[,] ArmarMatrizDatosNuevos<T>(T[,] matrizOriginal)
                 {
                     int columnasOriginal = matrizOriginal.GetLength(1);
                     string[,] auxOriginal = new string[1, columnasOriginal];
@@ -112,7 +134,7 @@ namespace SegundoParcial
                             string dato = Console.ReadLine();
                             if (auxOriginal[0, i] == "Cantidad" || auxOriginal[0, i] == "Precio")
                             {
-                                float datoFloat = Validaciones.validarFloat(dato);
+                                float datoFloat = Validaciones.ValidarFloat(dato);
                                 dato = datoFloat.ToString();
                             }
                             elemAgregar[0, i] = dato;
@@ -123,98 +145,105 @@ namespace SegundoParcial
 
                     //Validación de datos cargados
 
-                    elemAgregar = Validaciones.validarCargaDatos(elemAgregar, auxOriginal);
+                    elemAgregar = Validaciones.ValidarCargaDatos(elemAgregar, auxOriginal);
 
                     return elemAgregar;
                 }
 
                 /// <summary>
-                ///     Carga de datos de matriz auxiliar en matriz original
+                ///     Carga de datos de matriz auxiliar en matriz de string original
                 /// </summary>
                 /// <param name="matrizOriginal">Matriz que va a recibir los datos</param>
                 /// <param name="elemAgregar">Matriz auxiliar con los datos a cargar</param>
-                public static string[,] agregarElementoMatrizStr(string[,] matrizOriginal, string[,] elemAgregar)
-                {
-                    int indice = -1;
-
-                    //Buscar espacios vacíos en la Matriz
-
-                    for (int i = 0; i < matrizOriginal.GetLength(0); i++)
-                    {
-                        if (string.IsNullOrEmpty(matrizOriginal[i, 1].ToString()))
+                /// <returns>Matriz modificada</returns>
+                public static string[,] AgregarElementoMatrizStr(string[,] matrizOriginal, string[,] elemAgregar)
                         {
-                            indice = i;
-                            break;
-                        }
-                    }
+                            int indice = -1;
 
-                    //Cargar datos nuevos
+                            //Buscar espacios vacíos en la Matriz
 
-                    if (indice == -1)
-                    {
-                        indice = matrizOriginal.GetLength(0) + 1;
-                        ResizeArray<string>(ref matrizOriginal, indice, 3);
-                        for (int i = 0; i < elemAgregar.GetLength(1); i++)
-                        {
-                            matrizOriginal[indice - 1, i] = elemAgregar[0, i];
-                        }
-                    }
-                    else
-                    {
-                        for (int i = 0; i < matrizOriginal.GetLength(1); i++)
-                        {
-                            matrizOriginal[indice, i] = elemAgregar[0, i];
-                        }
+                            for (int i = 0; i < matrizOriginal.GetLength(0); i++)
+                            {
+                                if (string.IsNullOrEmpty(matrizOriginal[i, 1].ToString()))
+                                {
+                                    indice = i;
+                                    break;
+                                }
+                            }
 
-                    }
+                            //Cargar datos nuevos
 
-                    return matrizOriginal;
-                }
+                            if (indice == -1)
+                            {
+                                indice = matrizOriginal.GetLength(0) + 1;
+                                ResizeArray<string>(ref matrizOriginal, indice, 3);
+                                for (int i = 0; i < elemAgregar.GetLength(1); i++)
+                                {
+                                    matrizOriginal[indice - 1, i] = elemAgregar[0, i];
+                                }
+                            }
+                            else
+                            {
+                                for (int i = 0; i < matrizOriginal.GetLength(1); i++)
+                                {
+                                    matrizOriginal[indice, i] = elemAgregar[0, i];
+                                }
 
-                public static float[,] agregarElementoMatrizFloat(float[,] matrizOriginal, string[,] elemAgregar)
-                {
-                    int indice = -1;
+                            }
 
-                    //Buscar espacios vacíos en la Matriz
-
-                    for (int i = 0; i < matrizOriginal.GetLength(0); i++)
-                    {
-                        if (matrizOriginal[i, 1] == 0)
-                        {
-                            indice = i;
-                            break;
-                        }
-                    }
-
-                    //Cargar datos nuevos
-
-                    if (indice == -1)
-                    {
-                        indice = matrizOriginal.GetLength(0) + 1;
-                        ResizeArray<float>(ref matrizOriginal, indice, 3);
-                        for (int i = 0; i < elemAgregar.GetLength(1); i++)
-                        {
-                            float dato;
-                            float.TryParse(elemAgregar[0, i], out dato);
-                            matrizOriginal[indice - 1, i] = dato;
-                        }
-                    }
-                    else
-                    {
-                        float dato;
-                        float.TryParse(elemAgregar[0, 0], out dato);
-                        matrizOriginal[indice, 0] = dato;
-                        for (int i = 1; i < matrizOriginal.GetLength(1); i++)
-                        {                            
-                            float.TryParse(elemAgregar[0, i+3], out dato);
-                            matrizOriginal[indice, i] = dato;
+                            return matrizOriginal;
                         }
 
-                    }
+                /// <summary>
+                ///     Carga de datos de matriz auxiliar en matriz de float original
+                /// </summary>
+                /// <param name="matrizOriginal">Matriz que va a recibir los datos</param>
+                /// <param name="elemAgregar">Matriz auxiliar con los datos a cargar</param>
+                /// <returns>Matriz modificada</returns>
+                public static float[,] AgregarElementoMatrizFloat(float[,] matrizOriginal, string[,] elemAgregar)
+                                {
+                                    int indice = -1;
 
-                    return matrizOriginal;
+                                    //Buscar espacios vacíos en la Matriz
 
-                }
+                                    for (int i = 0; i < matrizOriginal.GetLength(0); i++)
+                                    {
+                                        if (matrizOriginal[i, 1] == 0)
+                                        {
+                                            indice = i;
+                                            break;
+                                        }
+                                    }
+
+                                    //Cargar datos nuevos
+
+                                    if (indice == -1)
+                                    {
+                                        indice = matrizOriginal.GetLength(0) + 1;
+                                        ResizeArray<float>(ref matrizOriginal, indice, 3);
+                                        for (int i = 0; i < elemAgregar.GetLength(1); i++)
+                                        {
+                                            float dato;
+                                            float.TryParse(elemAgregar[0, i], out dato);
+                                            matrizOriginal[indice - 1, i] = dato;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        float dato;
+                                        float.TryParse(elemAgregar[0, 0], out dato);
+                                        matrizOriginal[indice, 0] = dato;
+                                        for (int i = 1; i < matrizOriginal.GetLength(1); i++)
+                                        {                            
+                                            float.TryParse(elemAgregar[0, i+3], out dato);
+                                            matrizOriginal[indice, i] = dato;
+                                        }
+
+                                    }
+
+                                    return matrizOriginal;
+
+                                }
 
 
             #endregion
@@ -229,7 +258,7 @@ namespace SegundoParcial
             /// <param name="auxArray">Array a imprimir</param>
             /// <param name="usuario">Nombre del usuario logueado actualmente</param>
             /// <returns>Cantidad de opciones impresas</returns>
-            public static int imprimirArray<T>(T[] auxArray, string usuario)
+            public static int ImprimirArray<T>(T[] auxArray, string usuario)
             {
                 int cantidadImpresa = 0;
 
