@@ -15,6 +15,8 @@ namespace SegundoParcial
             {
                 //Títulos
                 Console.BackgroundColor = ConsoleColor.DarkYellow;
+                Console.ForegroundColor = ConsoleColor.Black;
+
                 for (int i = 0; i < 1; i++)
                 {
                     if (!string.IsNullOrEmpty(auxMatriz[i, 1].ToString()))

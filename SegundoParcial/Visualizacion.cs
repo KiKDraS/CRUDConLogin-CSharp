@@ -96,7 +96,7 @@ namespace SegundoParcial
             return exit;
         }
 
-        #region Sub-Menus. Todos reciben usuario actual y estado del booleando exit manejar navegación
+        #region Sub-Menus. Todos reciben usuario actual y estado del booleando exit para manejar navegación
 
             public static bool menuAdmin(string usuario, bool exit)
             {
@@ -391,6 +391,11 @@ namespace SegundoParcial
                     Ventas.Factura(numVenta);
                     //Imprimir Factura
                     Ventas.ImprimirFactura(Ventas.facturaCompra);
+                    //Guardar Factura
+                    Ventas.acumuladoFacturas = Ventas.GuardarFactura(Ventas.facturaCompra);
+                    //Vaciar elementos temporales
+                    Ventas.matrizCarro = Ventas.VaciarTemporales(Ventas.matrizCarro);
+                    Ventas.facturaCompra = Ventas.VaciarTemporales(Ventas.facturaCompra);
                     exit = Validaciones.ValidarSalir("\n\nPresione ENTER para realizar una nueva venta o ESC para salir", exit);
 
                 } while (exit);
