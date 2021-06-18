@@ -80,7 +80,7 @@ namespace SegundoParcial
             {
                 //Imprimir libro seleccionado
                 Console.Clear();
-                Visualizacion.titulo();
+                Visualizacion.Titulo();
                 Console.WriteLine("Datos del libro a modificar: \n");
                 indice = Procedimientos.EncontrarIndice(libros, id);
                 for (int i = 0; i < libros.GetLength(1); i++)
@@ -138,7 +138,7 @@ namespace SegundoParcial
 
             //Imprimir usuario seleccionado
             Console.Clear();
-            Visualizacion.titulo();
+            Visualizacion.Titulo();
             Console.WriteLine("Datos del libro a eliminar: \n");
             indice = Procedimientos.EncontrarIndice(libros, id);
             for (int i = 0; i < libros.GetLength(1); i++)
@@ -153,7 +153,7 @@ namespace SegundoParcial
             if (borrar)
             {
                 Console.Clear();
-                Visualizacion.titulo();
+                Visualizacion.Titulo();
                 for (int i = 0; i < libros.GetLength(1); i++)
                 {
                     libros[indice, i] = "";
@@ -170,6 +170,12 @@ namespace SegundoParcial
             return exit;
         }
 
+        /// <summary>
+        ///     Recorre la matriz precioCantidad para validar stock
+        /// </summary>
+        /// <param name="indice">Indice del elemento a validar</param>
+        /// <param name="cantidadSeleccionada">Cantidad a validar</param>
+        /// <returns>Cantidad validada</returns>
         public static float ComprobarDisponibilidadStock(int indice, float cantidadSeleccionada)
         {
             while (cantidadSeleccionada > Stock.precioCantidad[indice, 1])

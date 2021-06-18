@@ -59,7 +59,7 @@ namespace SegundoParcial
                 while (pass != auxMatriz[usuarioSeleccionado, 2])
                 {
                     Console.Clear();
-                    Visualizacion.titulo();
+                    Visualizacion.Titulo();
                     Console.WriteLine($"Usuario seleccionado: {Usuarios.matrizUsuarios[usuarioSeleccionado, 1]}");
                     Console.Write("Contraseña incorrecta. Vuelva a ingresarla: ");
                     pass = Usuarios.OcultarPass();
@@ -85,7 +85,7 @@ namespace SegundoParcial
                 bool continuar = true;
 
                 Console.Clear();
-                Visualizacion.titulo();
+                Visualizacion.Titulo();
                 Console.WriteLine("Datos ingresados:\n");
                 for (int i = 0; i < auxMatriz.GetLength(0); i++)
                 {
@@ -98,7 +98,7 @@ namespace SegundoParcial
                 while (continuar)
                 {
                     Console.Clear();
-                    Visualizacion.titulo();
+                    Visualizacion.Titulo();
                     Console.WriteLine("Datos ingresados:\n");
                     for (int i = 0; i < auxMatriz.GetLength(0); i++)
                     {
@@ -178,7 +178,7 @@ namespace SegundoParcial
                 while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
                 {
                     Console.Clear();
-                    Visualizacion.titulo();
+                    Visualizacion.Titulo();
                     Procedimientos.MenuOpcionesMatriz(auxMatriz, 0);
                     Console.WriteLine("Error, reingresar un valor correcto");
                 }
@@ -227,7 +227,7 @@ namespace SegundoParcial
                     while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
                     {
                         Console.Clear();
-                        Visualizacion.titulo();
+                        Visualizacion.Titulo();
                         Procedimientos.ImprimirArray(auxArray, usuario);
                         Console.WriteLine("Error, reingresar un valor correcto");
                     }
@@ -237,7 +237,7 @@ namespace SegundoParcial
                     while (!int.TryParse(Console.ReadLine(), out opcionValidada) || opcionValidada < 1 || opcionValidada > max)
                     {
                         Console.Clear();
-                        Visualizacion.titulo();
+                        Visualizacion.Titulo();
                         Procedimientos.ImprimirArray(auxArray, usuario);
                         Console.WriteLine("Error, reingresar un valor correcto");
                     }

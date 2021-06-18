@@ -17,6 +17,7 @@ namespace SegundoParcial
                 //Login
                 //string usuario = Visualizacion.login();
                 string usuario = "Admin";
+                //string usuario = "Vendedor1";
 
                 switch (usuario)
                 {
@@ -24,7 +25,7 @@ namespace SegundoParcial
                         do
                         {
                             Console.Clear();
-                            exit = Visualizacion.menuUser("Admin", exit);
+                            exit = Visualizacion.MenuUser("Admin", exit);
 
                         } while (exit);
                         break;
@@ -33,7 +34,7 @@ namespace SegundoParcial
                         do
                         {
                             Console.Clear();
-                            exit = Visualizacion.menuUser(usuario, exit);
+                            exit = Visualizacion.MenuUser(usuario, exit);
 
                         } while (exit);
                         break;
@@ -51,7 +52,6 @@ namespace SegundoParcial
 
             App();
 
-            //Console.ReadKey();
         }
     }
 }

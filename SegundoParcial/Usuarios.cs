@@ -51,7 +51,7 @@ namespace SegundoParcial
             if(id == "1")
             {
                 Console.Clear();
-                Visualizacion.titulo();
+                Visualizacion.Titulo();
                 Console.WriteLine("El usuario Admin sólo admite modificación de contraseña");                
                 Console.Write("Escriba nueva contraseña: ");
                 dato = Console.ReadLine();
@@ -65,7 +65,7 @@ namespace SegundoParcial
             {
                 //Imprimir usuario seleccionado
                 Console.Clear();
-                Visualizacion.titulo();
+                Visualizacion.Titulo();
                 Console.WriteLine("Datos de usuario a modificar: \n");
                 indice = Procedimientos.EncontrarIndice(matrizUsuarios, id);
                 for (int i = 0; i < matrizUsuarios.GetLength(1); i++)
@@ -105,7 +105,7 @@ namespace SegundoParcial
             if (id == "1")
             {
                 Console.Clear();
-                Visualizacion.titulo();
+                Visualizacion.Titulo();
                 Console.WriteLine("No se puede eliminar al usuario Admin. Presione cualquier tecla para volver al menú anterior");
                 Console.ReadKey();
                 exit = false;
@@ -115,7 +115,7 @@ namespace SegundoParcial
 
                 //Imprimir usuario seleccionado
                 Console.Clear();
-                Visualizacion.titulo();
+                Visualizacion.Titulo();
                 Console.WriteLine("Datos del usuario a eliminar: \n");
                 indice = Procedimientos.EncontrarIndice(matrizUsuarios, id);
                 for (int i = 0; i < matrizUsuarios.GetLength(1); i++)
@@ -130,7 +130,7 @@ namespace SegundoParcial
                 if (borrar)
                 {
                     Console.Clear();
-                    Visualizacion.titulo();
+                    Visualizacion.Titulo();
                     for (int i = 0; i < matrizUsuarios.GetLength(1); i++)
                     {
                         matrizUsuarios[indice, i] = "";

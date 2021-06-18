@@ -44,7 +44,7 @@ namespace SegundoParcial
 
             //Imprimir libro seleccionado
             Console.Clear();
-            Visualizacion.titulo();
+            Visualizacion.Titulo();
             Console.WriteLine("Datos del libro a vender: \n");
             for (int i = 0; i < Stock.libros.GetLength(1); i++)
             {
@@ -111,7 +111,7 @@ namespace SegundoParcial
             }            
 
             //Armado de factura
-            facturaCompra = ArmadoFactura(facturaCompra, numVenta.ToString());
+            facturaCompra = ArmadoFactura(numVenta.ToString());
 
             return facturaCompra;
         }

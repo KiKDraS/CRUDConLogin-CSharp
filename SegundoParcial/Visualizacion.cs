@@ -34,7 +34,7 @@ namespace SegundoParcial
         /// <summary>
         ///     Impresión del título de la aplicación
         /// </summary>
-        public static void titulo()
+        public static void Titulo()
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
 
@@ -52,11 +52,11 @@ namespace SegundoParcial
         ///     Login de usuario
         /// </summary>
         /// <returns>Usuario validado</returns>
-        public static string login()
+        public static string Login()
         {
             string usuario = "";
 
-            titulo();
+            Titulo();
             Console.WriteLine("Login\n");
             //validación de usuario
             int id = Validaciones.validarUsuario("Ingrese usuario: ", Usuarios.matrizUsuarios);
@@ -74,7 +74,7 @@ namespace SegundoParcial
         ///     <param name="usuario">Nombre del usuario logueado actualmente</param>
         ///     <param name="exit">Estado de booleano para salir del programa</param>
         /// <returns>Estado de booleano exit para salir del programa</returns>
-        public static bool menuUser(string usuario, bool exit)
+        public static bool MenuUser(string usuario, bool exit)
         {
             do
             {
@@ -86,7 +86,7 @@ namespace SegundoParcial
                         break;
 
                     default:
-                        menuVendedores(usuario, exit);
+                        MenuVendedores(usuario, exit);
                         exit = Validaciones.ValidarSalir("\nPresione ENTER para volver al menú o ESC para salir", exit);
                         break;
                 }
@@ -105,7 +105,7 @@ namespace SegundoParcial
                 do
                 {                   
                     Console.Clear();
-                    titulo();
+                    Titulo();
                     Console.WriteLine($"\nMenu {usuario}\n");
                     int cantidadImpresa = Procedimientos.ImprimirArray(opcionesMenu, usuario);
                     int opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
@@ -113,22 +113,23 @@ namespace SegundoParcial
                     switch (opcion)
                     {
                         case 1:
-                        //CRUD usuarios
-                        continuar = menuCrudUsuarios(usuario, exit);
+                            //CRUD usuarios
+                            continuar = MenuCrudUsuarios(usuario, exit);
                             break;
 
                         case 2:
-                        //CRUD stock
-                        continuar = menuCrudStock(usuario, exit);
+                            //CRUD stock
+                            continuar = MenuCrudStock(usuario, exit);
                             break;
 
                         case 3:
-                        //Ventas
-                        continuar = menuVentas (usuario, exit);
+                            //Ventas
+                            continuar = MenuVentas (usuario, exit);
                             break;
 
                         case 4:
                             //Facturación del día
+                            continuar = MenuFacturacion(usuario, exit);
                             break;
 
                         case 5:
@@ -142,14 +143,14 @@ namespace SegundoParcial
                 return exit;
             }
 
-            public static bool menuCrudUsuarios(string usuario, bool exit)
+            public static bool MenuCrudUsuarios(string usuario, bool exit)
             {
                 do
                 {
                     bool continuar = true;
                     
                     Console.Clear();
-                    titulo();
+                    Titulo();
                     Console.WriteLine("\nMenu Opciones Usuarios\n");
                     int cantidadImpresa = Procedimientos.ImprimirArray(menuOpcionesUsuarios, usuario);
                     int opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
@@ -160,7 +161,7 @@ namespace SegundoParcial
 
                         //Mostrar/Agregar
                         Console.Clear();
-                        titulo();
+                        Titulo();
                         Console.WriteLine("Lista de usuarios\n\n");
                         Procedimientos.ImprimirMatriz(Usuarios.matrizUsuarios);
                         continuar = Validaciones.ValidarSalir("\n\nPresione Enter para agregar usuario o ESC para volver al menú anterior", continuar);
@@ -168,7 +169,7 @@ namespace SegundoParcial
                         while(continuar)
                         {
                             Console.Clear();
-                            titulo();
+                            Titulo();
                             Console.WriteLine("Agregar Nuevo Usuario\n");
                             continuar = Usuarios.AgregarUsuario(continuar);
                         } 
@@ -179,7 +180,7 @@ namespace SegundoParcial
 
                         //Modificar
                         Console.Clear();
-                        titulo();
+                        Titulo();
                         Console.WriteLine("Lista de usuarios\n");
                         Procedimientos.ImprimirMatriz(Usuarios.matrizUsuarios);
                         continuar = Validaciones.ValidarSalir("\n\nPresione Enter para modificar usuario o ESC para volver al menú anterior", continuar);
@@ -189,7 +190,7 @@ namespace SegundoParcial
                             int idSeleccionado;
 
                             Console.Clear();
-                            titulo();
+                            Titulo();
                             Console.WriteLine("Modificar usuario\n");
                             Procedimientos.ImprimirMatriz(Usuarios.matrizUsuarios);
                             //Seleccionar usuario por ID
@@ -204,7 +205,7 @@ namespace SegundoParcial
 
                         //Eliminar
                         Console.Clear();
-                        titulo();
+                        Titulo();
                         Console.WriteLine("Lista de usuarios\n\n");
                         Procedimientos.ImprimirMatriz(Usuarios.matrizUsuarios);
                         continuar = Validaciones.ValidarSalir("\n\nPresione Enter para eliminar usuario o ESC para volver al menú anterior", continuar);
@@ -214,7 +215,7 @@ namespace SegundoParcial
                             int idSeleccionado;
 
                             Console.Clear();
-                            titulo();
+                            Titulo();
                             Console.WriteLine("Eliminar usuario\n");
                             Procedimientos.ImprimirMatriz(Usuarios.matrizUsuarios);
                             //Seleccionar usuario por ID
@@ -235,14 +236,14 @@ namespace SegundoParcial
                 return exit;
             }
 
-            public static bool menuCrudStock(string usuario, bool exit)
+            public static bool MenuCrudStock(string usuario, bool exit)
             {
                 do
                 {
                     bool continuar = true;
 
                     Console.Clear();
-                    titulo();
+                    Titulo();
                     Console.WriteLine($"\nMenu Opciones Stock\n");
                     int cantidadImpresa = Procedimientos.ImprimirArray(menuOpcionesStock, usuario);
                     int opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
@@ -252,7 +253,7 @@ namespace SegundoParcial
                         case 1:
                         //Mostrar/Agregar
                         Console.Clear();
-                        titulo();
+                        Titulo();
                         Console.WriteLine("Libros en stock\n\n");
                         Procedimientos.ImprimirMatriz(Stock.libros);
                         continuar = Validaciones.ValidarSalir("\n\nPresione Enter para agregar libro o ESC para volver al menú anterior", continuar);
@@ -260,7 +261,7 @@ namespace SegundoParcial
                         while (continuar)
                         {
                             Console.Clear();
-                            titulo();
+                            Titulo();
                             Console.WriteLine("Agregar Nuevo Libro\n");
                             continuar = Stock.AgregarLibro(continuar);
                         }
@@ -271,7 +272,7 @@ namespace SegundoParcial
 
                         //Modificar
                         Console.Clear();
-                        titulo();
+                        Titulo();
                         Console.WriteLine("Lista de libros en Stock\n");
                         Procedimientos.ImprimirMatriz(Stock.libros);
                         continuar = Validaciones.ValidarSalir("\n\nPresione Enter para modificar libro o ESC para volver al menú anterior", continuar);
@@ -281,7 +282,7 @@ namespace SegundoParcial
                             int idSeleccionado;
 
                             Console.Clear();
-                            titulo();
+                            Titulo();
                             Console.WriteLine("Modificar libro\n");
                             Procedimientos.ImprimirMatriz(Stock.libros);
                             //Seleccionar libro por ID
@@ -296,7 +297,7 @@ namespace SegundoParcial
 
                         //Eliminar
                         Console.Clear();
-                        titulo();
+                        Titulo();
                         Console.WriteLine("Lista de libros en Stock\n\n");
                         Procedimientos.ImprimirMatriz(Stock.libros);
                         continuar = Validaciones.ValidarSalir("\n\nPresione Enter para eliminar libro o ESC para volver al menú anterior", continuar);
@@ -306,7 +307,7 @@ namespace SegundoParcial
                             int idSeleccionado;
 
                             Console.Clear();
-                            titulo();
+                            Titulo();
                             Console.WriteLine("Eliminar libro\n");
                             Procedimientos.ImprimirMatriz(Stock.libros);
                             //Seleccionar libro por ID
@@ -327,12 +328,14 @@ namespace SegundoParcial
                 return exit;
             }
 
-            public static bool menuVendedores(string usuario, bool exit)
+            public static bool MenuVendedores(string usuario, bool exit)
             {
+                bool continuar = true;
+
                 do
                 {
                     Console.Clear();
-                    titulo();
+                    Titulo();
                     Console.WriteLine($"\nMenu {usuario}\n");
                     int cantidadImpresa = Procedimientos.ImprimirArray(opcionesMenu, usuario);
                     int opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
@@ -340,38 +343,43 @@ namespace SegundoParcial
                     switch (opcion)
                     {
                         case 1:
-                            exit = menuVentas(usuario, exit);
+                            continuar = MenuVentas(usuario, exit);
                             break;
 
                         case 2:
-                            exit = false;
+                            continuar = false;
                             break;
                     }
 
-                } while (exit);
+                } while (continuar);
 
                 return exit;
             }
 
-            public static bool menuVentas(string usuario, bool exit)
+            public static bool MenuVentas(string usuario, bool exit)
             {
                 do
                 {
-                    bool continuar = true;
+                    bool facturar = false;
                     int numVenta = 1;
 
                     Console.Clear();
-                    titulo();
+                    Titulo();
                     Console.WriteLine($"Libros en Stock\n");
                     Procedimientos.ImprimirMatriz(Stock.libros);
-                    exit = Validaciones.ValidarSalir("\n\nPresione Enter para vender o ESC para volver al menú anterior", exit);                    
+                    bool continuar = Validaciones.ValidarSalir("\n\nPresione Enter para vender o ESC para volver al menú anterior", exit);
+
+                    if (continuar)
+                    {
+                        facturar = true;
+                    }
 
                     while (continuar)
                     {
                         int idSeleccionado;                        
 
                         Console.Clear();
-                        titulo();
+                        Titulo();
                         Console.WriteLine("Realizar Venta\n");
                         Procedimientos.ImprimirMatriz(Stock.libros);
                         //Seleccionar libro por ID
@@ -383,23 +391,36 @@ namespace SegundoParcial
 
                     }
 
-                    //Facturación
-                    Console.Clear();
-                    titulo();
-                    Console.WriteLine("Factura\n");
-                    //Crear Factura
-                    Ventas.Factura(numVenta);
-                    //Imprimir Factura
-                    Ventas.ImprimirFactura(Ventas.facturaCompra);
-                    //Guardar Factura
-                    Ventas.acumuladoFacturas = Ventas.GuardarFactura(Ventas.facturaCompra);
-                    //Vaciar elementos temporales
-                    Ventas.matrizCarro = Ventas.VaciarTemporales(Ventas.matrizCarro);
-                    Ventas.facturaCompra = Ventas.VaciarTemporales(Ventas.facturaCompra);
-                    exit = Validaciones.ValidarSalir("\n\nPresione ENTER para realizar una nueva venta o ESC para salir", exit);
+                    if (facturar)
+                    {
+                        //Facturación
+                        Console.Clear();
+                        Titulo();
+                        Console.WriteLine("Factura\n");
+                        //Crear Factura
+                        Ventas.Factura(numVenta);
+                        //Imprimir Factura
+                        Ventas.ImprimirFactura(Ventas.facturaCompra);
+                        //Guardar Factura
+                        Ventas.acumuladoFacturas = Ventas.GuardarFactura(Ventas.facturaCompra);
+                        //Vaciar elementos temporales
+                        Ventas.matrizCarro = Ventas.VaciarTemporales(Ventas.matrizCarro);
+                        Ventas.facturaCompra = Ventas.VaciarTemporales(Ventas.facturaCompra);
+                        facturar = Validaciones.ValidarSalir("\n\nPresione ENTER para realizar una nueva venta o ESC para salir", exit);                        
+                    }
+
+                    if (facturar == false)
+                    {
+                        exit = false;
+                    }
 
                 } while (exit);
 
+                return exit;
+            }
+
+            public static bool MenuFacturacion(string usuario, bool exit)
+            {
                 return exit;
             }
 
