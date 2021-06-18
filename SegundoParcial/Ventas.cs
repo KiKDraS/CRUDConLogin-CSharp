@@ -13,14 +13,14 @@ namespace SegundoParcial
             {"Vendedor","Venta N°", "ID Producto", "Nombre", "Cantidad", "Precio"}
         };
 
-        public static string[,] facturaCompra = new string[1, 6]
+        public static string[,] facturaCompra = new string[1, 7]
         {
-            {"Factura N°", "ID Producto", "Nombre", "Cantidad", "Precio", "Total"}
+            {"Vendedor", "Factura N°", "ID Producto", "Nombre", "Cantidad", "Precio", "Total"}
         };
 
-        public static string[,] acumuladoFacturas = new string[1, 6]
+        public static string[,] acumuladoFacturas = new string[1, 7]
         {
-            {"Factura N°", "ID Producto", "Nombre", "Cantidad", "Precio", "Total"}
+            {"Vendedor", "Factura N°", "ID Producto", "Nombre", "Cantidad", "Precio", "Total"}
         };
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace SegundoParcial
         /// <param name="idLibro">ID del libro a agregar al carro</param>
         /// <param name="numVenta">Numero de ventas realizadas</param>
         /// <returns>matrizCarro actualizada</returns>
-        public static string[,] CarroVenta(string usuario, int idLibro, int numVenta)
+        public static int CarroVenta(string usuario, int idLibro, int numVenta)
         {
             int indice = Procedimientos.EncontrarIndice(Stock.libros, idLibro.ToString());
 
@@ -57,6 +57,16 @@ namespace SegundoParcial
             Stock.libros[indice, 4] = cantidadRestante.ToString();
             Stock.precioCantidad[indice, 1] = cantidadRestante;
 
+            //N° de venta
+            for (int i = 1; i < acumuladoFacturas.GetLength(0); i++)
+            {
+                if (acumuladoFacturas[i, 1] != numVenta.ToString() && !string.IsNullOrEmpty(acumuladoFacturas[i, 1]))
+                {
+                    int.TryParse(acumuladoFacturas[i, 1], out int aux);
+                    numVenta = aux;
+                }
+            }
+
             //Precio
             float precio = Stock.precioCantidad[indice, 2] * cantidadSeleccionada;
 
@@ -71,14 +81,15 @@ namespace SegundoParcial
                     break;
                 }
             }
+
             matrizCarro[indice, 0] = usuario;
             matrizCarro[indice, 1] = numVenta.ToString();
             matrizCarro[indice, 2] = idLibro.ToString();
             matrizCarro[indice, 3] = nombre;
             matrizCarro[indice, 4] = cantidadSeleccionada.ToString();
-            matrizCarro[indice, 5] = precio.ToString();            
+            matrizCarro[indice, 5] = precio.ToString();
 
-            return matrizCarro;
+            return numVenta;
         }
 
 
@@ -88,92 +99,129 @@ namespace SegundoParcial
         /// <param name="usuario">Usuario encargado de la venta</param>
         /// <param name="numVenta">Número de ventas realizadas</param>
         /// <returns>Matriz facturas actualizada</returns>
-        public static string[,] Factura(string usuario, int numVenta)
+        public static string[,] Factura(int numVenta)
         {
             //Asignar tamaño de Matriz
             int filas = matrizCarro.GetLength(0) + 1;
-            Procedimientos.ResizeArray<string>(ref facturaCompra, filas, 6);
+            Procedimientos.ResizeArray<string>(ref facturaCompra, filas, 7);
 
             //Armado de factura
-            facturaCompra = ArmadoFactura(facturaCompra, numVenta);
+            facturaCompra = ArmadoFactura(facturaCompra, numVenta.ToString());
 
             return facturaCompra;
         }
 
-        public static string[,] ArmadoFactura(string[,] facturaCompra, int numVenta)
+        public static string[,] ArmadoFactura(string[,] facturaCompra, string numVenta)
         {
-            //Carga N° Factura
-            facturaCompra[1, 0] = numVenta.ToString();
-            int totalItemsCarro = matrizCarro.GetLength(0);
-
-            //Carga ID Producto
-            for (int i = 2; i < totalItemsCarro; i++)
-            {
-                facturaCompra[1,1] = matrizCarro[1, 2];
-                if (!string.IsNullOrEmpty(facturaCompra[i,1]) && facturaCompra[1, 1] != matrizCarro[i, 2])
-                {
-                    int aux = totalItemsCarro - i;
-                    facturaCompra[aux, 1] = matrizCarro[i, 2];
-                }
-            }
-
-            //Carga Nombre del Producto
-            for (int i = 2; i < totalItemsCarro; i++)
-            {
-                facturaCompra[1, 2] = matrizCarro[1, 3];
-                if (!string.IsNullOrEmpty(facturaCompra[i, 2]) && facturaCompra[1, 2] != matrizCarro[i, 3])
-                {
-                    int aux = totalItemsCarro - i;
-                    facturaCompra[aux, 2] = matrizCarro[i, 3];
-                }
-            }
-
-            //Carga Cantidades
-            string auxID = facturaCompra[1, 1];
-            int.TryParse(matrizCarro[1, 4], out int totalCantidades);
-
-            for (int i = 1; i < totalItemsCarro; i++)
-            {
-                facturaCompra[1, 3] = totalCantidades.ToString();
-
-                if (facturaCompra[i, 1] != auxID)
-                {
-                    int.TryParse(matrizCarro[i, 4], out int aux);
-                    totalCantidades += aux;
-                    int auxInd = totalItemsCarro - 1;
-                    facturaCompra[auxInd, 3] = totalCantidades.ToString();
-
-                }            
-            }
-
-            //Carga de precios
-            for (int i = 1; i < totalItemsCarro; i++)
-            {
-                facturaCompra[1, 4] = matrizCarro[1,5];
-
-                if (facturaCompra[i, 1] != auxID)
-                {
-                    int aux = totalItemsCarro - 1;
-                    facturaCompra[aux, 4] = matrizCarro[i,5];
-
-                }
-            }
-
             //Suma de totales
             float totalVenta = 0;
-            for (int i = 0; i < totalItemsCarro; i++)
+            for (int i = 0; i < matrizCarro.GetLength(0); i++)
             {
-                if (matrizCarro[i, 1] == numVenta.ToString())
+                if (matrizCarro[i, 1] == numVenta)
                 {
                     float.TryParse(matrizCarro[i, 5], out float auxFloat);
                     totalVenta += auxFloat;
                 }
             }
 
-            facturaCompra[totalItemsCarro - 1, 5] = totalVenta.ToString();
+            //Carga de datos
+            for (int i = 0; i < matrizCarro.GetLength(0); i++)
+            {
+                for (int j = 0; j < matrizCarro.GetLength(1); j++)
+                {
+                    facturaCompra[i, j] = matrizCarro[i, j];
+                }
+            }
 
+            for (int i = 0; i < facturaCompra.GetLength(0); i++)
+            {
+                if (string.IsNullOrEmpty(facturaCompra[i,0]))
+                {
+                    facturaCompra[i, 6] = totalVenta.ToString();
+                }
+            }
 
             return facturaCompra;
         }
+
+        public static void ImprimirFactura(string[,] facturaCompra)
+        {
+            //Títulos
+            Console.BackgroundColor = ConsoleColor.DarkYellow;
+            for (int i = 0; i < 1; i++)
+            {
+                if (!string.IsNullOrEmpty(facturaCompra[i, 1]))
+                {
+                    Console.Write("|");
+                    for (int j = 0; j < facturaCompra.GetLength(1); j++)
+                    {
+                        if (!string.IsNullOrEmpty(facturaCompra[i, j]))
+                        {
+                            Console.Write($"{facturaCompra[i, j],-15}|");
+                        }
+                    }
+                    Console.WriteLine("");
+                }
+            }
+            Console.ResetColor();
+
+            //Items
+            int auxIndiceI = 0;
+            for (int i = 1; i < facturaCompra.GetLength(0); i++)
+            {
+                Console.Write("|");
+                if (!string.IsNullOrEmpty(facturaCompra[i, 1]))
+                {
+                    for (int j = 0; j < facturaCompra.GetLength(1); j++)
+                    {
+                        if (!string.IsNullOrEmpty(facturaCompra[i, j]))
+                        {
+                            Console.Write($"{facturaCompra[i, j],-15}|");
+                        }
+                    }
+                    Console.WriteLine("");
+                }
+                auxIndiceI++;
+            }
+            Console.Write($"                                                                                               |{facturaCompra[auxIndiceI, 6]}");
+
+            //Vaciar elementos temporales
+            //VaciarCarro(matrizCarro);
+            //VaciarFactura(facturaCompra);
+        }
+
+        public static string[,] VaciarCarro(string[,] matrizCarro)
+        {
+            //Reasignar tamaño de Matriz
+            Procedimientos.ResizeArray<string>(ref matrizCarro, 1, 7);
+
+            //Agregar valores
+            matrizCarro[0, 0] = "Factura N°";
+            matrizCarro[0, 1] = "Venta N°";
+            matrizCarro[0, 2] = "ID Producto";
+            matrizCarro[0, 3] = "Nombre";
+            matrizCarro[0, 4] = "Cantidad";
+            matrizCarro[0, 5] = "Precio";
+
+            return matrizCarro;
+        }
+
+        public static string[,] VaciarFactura(string[,] facturaCompra)
+        {
+            //Reasignar tamaño de Matriz
+            Procedimientos.ResizeArray<string>(ref facturaCompra, 1, 6);
+
+            //Agregar valores
+            matrizCarro[0, 0] = "Vendedor";
+            matrizCarro[0, 1] = "Factura N°";
+            matrizCarro[0, 2] = "ID Producto";
+            matrizCarro[0, 3] = "Nombre";
+            matrizCarro[0, 4] = "Cantidad";
+            matrizCarro[0, 5] = "Precio";
+            matrizCarro[0, 6] = "Total";
+
+            return facturaCompra;
+        }
+
     }
 }

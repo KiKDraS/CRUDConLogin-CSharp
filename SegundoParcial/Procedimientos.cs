@@ -13,7 +13,27 @@ namespace SegundoParcial
             /// <param name="auxMatriz">Matriz a imprimir</param>
             public static void ImprimirMatriz<T>(T[,] auxMatriz)
             {
-                for (int i = 0; i < auxMatriz.GetLength(0); i++)
+                //Títulos
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                for (int i = 0; i < 1; i++)
+                {
+                    if (!string.IsNullOrEmpty(auxMatriz[i, 1].ToString()))
+                    {
+                        Console.Write("|");
+                        for (int j = 0; j < auxMatriz.GetLength(1); j++)
+                        {
+                            if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()))
+                            {
+                                Console.Write($"{auxMatriz[i, j],-15}|");
+                            }
+                        }
+                        Console.WriteLine("");
+                    }
+                }
+                Console.ResetColor();
+
+                //Items
+                for (int i = 1; i < auxMatriz.GetLength(0); i++)
                 {
                     if (!string.IsNullOrEmpty(auxMatriz[i, 1].ToString()) || auxMatriz[i, 1].ToString() == "0")
                     {
@@ -22,7 +42,7 @@ namespace SegundoParcial
                         {
                             if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()) || auxMatriz[i, j].ToString() == "0")
                             {                               
-                                Console.Write($"{auxMatriz[i, j], -18}|");
+                                Console.Write($"{auxMatriz[i, j], -15}|");
                             }
                         }
                         Console.WriteLine("");

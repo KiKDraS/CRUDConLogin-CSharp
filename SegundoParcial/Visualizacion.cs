@@ -355,15 +355,10 @@ namespace SegundoParcial
 
             public static bool menuVentas(string usuario, bool exit)
             {
-                int numVenta = 0;
-
                 do
                 {
                     bool continuar = true;
-                    if (numVenta == 0)
-                    {
-                        numVenta++;
-                    }
+                    int numVenta = 1;
 
                     Console.Clear();
                     titulo();
@@ -382,9 +377,9 @@ namespace SegundoParcial
                         //Seleccionar libro por ID
                         idSeleccionado = Validaciones.ValidarID("\nIngrese ID del libro a vender: ", Stock.libros);
                         //Carga Carro
-                        Ventas.matrizCarro = Ventas.CarroVenta(usuario, idSeleccionado, numVenta);
+                        numVenta = Ventas.CarroVenta(usuario, idSeleccionado, numVenta);
                         //Cerrar Carro
-                        continuar = Validaciones.ValidarSalir("\nProducto agregado al carro. Precione ENTER para agregar otro o ESC para continuar", continuar);
+                        continuar = Validaciones.ValidarSalir("\nProducto agregado al carro. \nPrecione ENTER para agregar otro o ESC para continuar", continuar);
 
                     }
 
@@ -392,11 +387,11 @@ namespace SegundoParcial
                     Console.Clear();
                     titulo();
                     Console.WriteLine("Factura\n");
-                    Ventas.facturaCompra = Ventas.Factura(usuario, numVenta);
-                    Procedimientos.ImprimirMatriz(Ventas.facturaCompra);
-                    exit = Validaciones.ValidarSalir("\nPresione ENTER para realizar una nueva venta o ESC para salir", exit);
-
-                    numVenta++;
+                    //Crear Factura
+                    Ventas.Factura(numVenta);
+                    //Imprimir Factura
+                    Ventas.ImprimirFactura(Ventas.facturaCompra);
+                    exit = Validaciones.ValidarSalir("\n\nPresione ENTER para realizar una nueva venta o ESC para salir", exit);
 
                 } while (exit);
 

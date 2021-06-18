@@ -13,15 +13,15 @@ namespace SegundoParcial
         public static string[,] libros = new string[11, 6]
         {
                 {"ID",  "Titulo",   "Autor",    "Género", "Cantidad", "Precio" },
-                {"1",   "Elantris",   "Brandon Sanderson",    "Fantasía épica", "10", "150" },
+                {"1",   "Elantris",   "Bran Sanderson",    "Fantasía épica", "10", "150" },
                 {"",   "",   "",    "", "", "" },
-                {"3",   "Juego de Tronos",   "George R.R. Martin",    "Fantasía épica", "15", "200" },
+                {"3",   "Juego Tronos",   "George Martin",    "Fantasía épica", "15", "200" },
                 {"",   "",   "",    "", "", "" },
-                {"5",   "El fact Scarpetta",   "Patricia Cornwell",    "Policial", "20", "130" },
+                {"5",   "El fact Scarp",   "Patri Cornwell",    "Policial", "20", "130" },
                 {"",   "",   "",    "", "", "" },
-                {"7",   "La perf silencio",   "Clara García",    "Romance", "30", "160" },
+                {"7",   "La perf silen",   "Clara García",    "Romance", "30", "160" },
                 {"",   "",   "",    "", "", "" },
-                {"9",   "La filo de House",   "Irvin y Jacoby",    "Filosofía", "15", "100" },
+                {"9",   "La filo House",   "Irvin y Jacoby",    "Filosofía", "15", "100" },
                 {"",  "",   "",    "", "", "" }
         };
 

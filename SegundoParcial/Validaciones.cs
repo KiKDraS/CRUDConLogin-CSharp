@@ -257,9 +257,15 @@ namespace SegundoParcial
             /// <param name="exit">Booleano que maneja la salida</param>
             /// <returns>Estado del booleano</returns>
             public static bool ValidarSalir(string mensaje, bool exit)
-            {
+            {            
                 Console.WriteLine(mensaje);
                 ConsoleKey salir = Console.ReadKey(true).Key;
+
+                while (salir != ConsoleKey.Escape && salir != ConsoleKey.Enter)
+                {
+                    Console.WriteLine(mensaje);
+                    salir = Console.ReadKey(true).Key;
+                }
 
                 switch (salir)
                 {
@@ -271,6 +277,7 @@ namespace SegundoParcial
                         Console.Clear();
                         exit = true;
                         break;
+
                 }
 
                 return exit;
