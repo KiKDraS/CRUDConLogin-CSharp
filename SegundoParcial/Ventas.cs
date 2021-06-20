@@ -17,19 +17,7 @@ namespace SegundoParcial
         {
             {"Vendedor", "Factura N°", "ID Producto", "Nombre", "Cantidad", "Precio", "Total"}
 
-        };
-
-        public static string[,] acumuladoFacturas = new string[8, 7]
-        {
-            {"Vendedor", "Factura N°", "ID Producto", "Nombre", "Cantidad", "Precio", "Total"},
-            {"Vendedor1", "1", "3", "Juego Tronos", "1", "200", ""},
-            {"Vendedor1", "1", "5", "El fact Scarp", "1", "130", ""},
-            {"", "", "", "", "", "", "330"},
-            {"Vendedor1", "2", "1", "Elantris", "1", "150", ""},
-            {"", "", "", "", "", "", "150"},
-            {"Vendedor2", "3", "7", "La perf silen", "1", "160", ""},
-            {"", "", "", "", "", "", "160"}
-        };
+        };        
 
         /// <summary>
         ///     Crea un carrito de ventas
@@ -94,9 +82,8 @@ namespace SegundoParcial
             return numVenta;
         }
 
-
         /// <summary>
-        ///     Vrea la factura de la venta
+        ///     Crea la factura de la venta
         /// </summary>
         /// <param name="usuario">Usuario encargado de la venta</param>
         /// <param name="numVenta">Número de ventas realizadas</param>
@@ -124,23 +111,23 @@ namespace SegundoParcial
         public static string[,] GuardarFactura(string[,] facturaCompra)
         {
             //Tamaño de matriz            
-            if (acumuladoFacturas.GetLength(0) == 1)
+            if (Facturacion.acumuladoFacturas.GetLength(0) == 1)
             {
                 int filas = facturaCompra.GetLength(0);
-                Procedimientos.ResizeArray<string>(ref acumuladoFacturas, filas, 7);
+                Procedimientos.ResizeArray<string>(ref Facturacion.acumuladoFacturas, filas, 7);
             }
             else
             {
-                int filas = (acumuladoFacturas.GetLength(0) + facturaCompra.GetLength(0)) - 1;
-                Procedimientos.ResizeArray<string>(ref acumuladoFacturas, filas, 7);
+                int filas = (Facturacion.acumuladoFacturas.GetLength(0) + facturaCompra.GetLength(0)) - 1;
+                Procedimientos.ResizeArray<string>(ref Facturacion.acumuladoFacturas, filas, 7);
 
             }
 
             //Buscar último indice ocupado
             int indice = -1;
-            for (int i = 1; i < acumuladoFacturas.GetLength(0); i++)
+            for (int i = 1; i < Facturacion.acumuladoFacturas.GetLength(0); i++)
             {
-                if (string.IsNullOrEmpty(acumuladoFacturas[i, 0]) && string.IsNullOrEmpty(acumuladoFacturas[i, 6]))
+                if (string.IsNullOrEmpty(Facturacion.acumuladoFacturas[i, 0]) && string.IsNullOrEmpty(Facturacion.acumuladoFacturas[i, 6]))
                 {
                     indice = i;
                     break;
@@ -152,25 +139,25 @@ namespace SegundoParcial
 
             for (int i = 0; i < itemsAgregar; i++)
             {
-                for (int j = 0; j < acumuladoFacturas.GetLength(1); j++)
+                for (int j = 0; j < Facturacion.acumuladoFacturas.GetLength(1); j++)
                 {
-                    acumuladoFacturas[indice, j] = facturaCompra[i+1, j];
+                    Facturacion.acumuladoFacturas[indice, j] = facturaCompra[i+1, j];
                 }
 
-                if (indice >= acumuladoFacturas.GetLength(0)-1)
+                if (indice >= Facturacion.acumuladoFacturas.GetLength(0)-1)
                 {
-                    indice = acumuladoFacturas.GetLength(0)-1;
+                    indice = Facturacion.acumuladoFacturas.GetLength(0)-1;
                 }
                 else
                 {
                     indice++;
                 }
-                
-                acumuladoFacturas[indice, 6] = facturaCompra[i+1, 6];
+
+                Facturacion.acumuladoFacturas[indice, 6] = facturaCompra[i+1, 6];
                 
             }
 
-            return acumuladoFacturas;
+            return Facturacion.acumuladoFacturas;
         }
 
         /// <summary>
@@ -257,7 +244,7 @@ namespace SegundoParcial
                 }
                 auxIndiceI++;
             }
-            Console.Write($"                                                                                               |{facturaCompra[auxIndiceI, 6]}");
+            Console.Write($"                                                                                               |${facturaCompra[auxIndiceI, 6]}");
             
         }
 
@@ -303,11 +290,11 @@ namespace SegundoParcial
         {
             int numVenta = 0;
 
-            for (int i = 1; i < acumuladoFacturas.GetLength(0); i++)
+            for (int i = 1; i < Facturacion.acumuladoFacturas.GetLength(0); i++)
             {
-                if (acumuladoFacturas[i, 1] != numVenta.ToString() && !string.IsNullOrEmpty(acumuladoFacturas[i, 6]))
+                if (Facturacion.acumuladoFacturas[i, 1] != numVenta.ToString() && !string.IsNullOrEmpty(Facturacion.acumuladoFacturas[i, 6]))
                 {
-                    int.TryParse(acumuladoFacturas[i - 1, 1], out int aux);
+                    int.TryParse(Facturacion.acumuladoFacturas[i - 1, 1], out int aux);
                     numVenta = aux + 1;
                 }
             }

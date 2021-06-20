@@ -30,6 +30,12 @@ namespace SegundoParcial
             "Eliminar Libro",
         };
 
+        public static string[] menuOpcionesFacturacion =
+        {
+            "Buscar factura",
+            "Total facturado"
+        };
+
 
         /// <summary>
         ///     Impresión del título de la aplicación
@@ -54,15 +60,13 @@ namespace SegundoParcial
         /// <returns>Usuario validado</returns>
         public static string Login()
         {
-            string usuario = "";
-
             Titulo();
             Console.WriteLine("Login\n");
             //validación de usuario
             int id = Validaciones.validarUsuario("Ingrese usuario: ", Usuarios.matrizUsuarios);
             //Validación de contraseña de usuario
             Console.WriteLine($"Usuario seleccionado: {Usuarios.matrizUsuarios[id, 1]}");
-            usuario = Validaciones.validarPass("Ingrese contraseña: ", Usuarios.matrizUsuarios, id);
+            string usuario = Validaciones.validarPass("Ingrese contraseña: ", Usuarios.matrizUsuarios, id);
 
             return usuario;
 
@@ -81,13 +85,19 @@ namespace SegundoParcial
                 switch (usuario)
                 {
                     case "Admin":
-                        menuAdmin(usuario, exit);
-                        exit = Validaciones.ValidarSalir("\nPresione ENTER para volver al menú o ESC para salir", exit);
+                        exit = MenuAdmin(usuario, exit);
+                        if (exit == false)
+                        {
+                            exit = Validaciones.ValidarSalir("\nPresione ENTER para volver al menú o ESC para salir", exit);
+                        }                                                    
                         break;
 
                     default:
-                        MenuVendedores(usuario, exit);
-                        exit = Validaciones.ValidarSalir("\nPresione ENTER para volver al menú o ESC para salir", exit);
+                        exit = MenuVendedores(usuario, exit);
+                        if (exit == false)
+                        {
+                            exit = Validaciones.ValidarSalir("\nPresione ENTER para volver al menú o ESC para salir", exit);
+                        }
                         break;
                 }
 
@@ -98,23 +108,24 @@ namespace SegundoParcial
 
         #region Sub-Menus. Todos reciben usuario actual y estado del booleando exit para manejar navegación
 
-            public static bool menuAdmin(string usuario, bool exit)
+            public static bool MenuAdmin(string usuario, bool exit)
             {
                 bool continuar = true;
-
+                int opcion = 0;
+                
                 do
                 {                   
                     Console.Clear();
                     Titulo();
                     Console.WriteLine($"\nMenu {usuario}\n");
                     int cantidadImpresa = Procedimientos.ImprimirArray(opcionesMenu, usuario);
-                    int opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
+                    opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
 
                     switch (opcion)
                     {
                         case 1:
                             //CRUD usuarios
-                            continuar = MenuCrudUsuarios(usuario, exit);
+                            continuar = MenuCrudUsuarios(usuario, exit);                            
                             break;
 
                         case 2:
@@ -134,11 +145,15 @@ namespace SegundoParcial
 
                         case 5:
                             continuar = false;
-                            exit = false;
                             break;
                     }
 
                 } while (continuar);
+
+                if (opcion == 5)
+                {
+                    exit = false;
+                }                
 
                 return exit;
             }
@@ -331,6 +346,7 @@ namespace SegundoParcial
             public static bool MenuVendedores(string usuario, bool exit)
             {
                 bool continuar = true;
+                int opcion = 0;
 
                 do
                 {
@@ -338,7 +354,7 @@ namespace SegundoParcial
                     Titulo();
                     Console.WriteLine($"\nMenu {usuario}\n");
                     int cantidadImpresa = Procedimientos.ImprimirArray(opcionesMenu, usuario);
-                    int opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
+                    opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, opcionesMenu, usuario);
 
                     switch (opcion)
                     {
@@ -347,11 +363,20 @@ namespace SegundoParcial
                             break;
 
                         case 2:
+                            continuar = MenuFacturacion(usuario, exit);
+                            break;
+
+                        case 3:
                             continuar = false;
                             break;
                     }
 
                 } while (continuar);
+
+                if (opcion == 3)
+                {
+                    exit = false;
+                }
 
                 return exit;
             }
@@ -402,7 +427,7 @@ namespace SegundoParcial
                         //Imprimir Factura
                         Ventas.ImprimirFactura(Ventas.facturaCompra);
                         //Guardar Factura
-                        Ventas.acumuladoFacturas = Ventas.GuardarFactura(Ventas.facturaCompra);
+                        Facturacion.acumuladoFacturas = Ventas.GuardarFactura(Ventas.facturaCompra);
                         //Vaciar elementos temporales
                         Ventas.matrizCarro = Ventas.VaciarTemporales(Ventas.matrizCarro);
                         Ventas.facturaCompra = Ventas.VaciarTemporales(Ventas.facturaCompra);
@@ -421,8 +446,47 @@ namespace SegundoParcial
 
             public static bool MenuFacturacion(string usuario, bool exit)
             {
+                bool continuar = true;
+                int opcion = 0;                
+
+                do
+                {
+                    Console.Clear();
+                    Titulo();
+                    Console.WriteLine($"\nMenu Facturación\n");
+                    int cantidadImpresa = Procedimientos.ImprimirArray(menuOpcionesFacturacion, usuario);
+                    opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, menuOpcionesFacturacion, usuario);
+
+                    switch (opcion)
+                    {
+                        case 1:
+                            Console.Clear();
+                            Titulo();
+                            Console.WriteLine($"\nBuscar Factura\n");
+                            continuar = Facturacion.BuscarFactura();
+                            break;
+
+                        case 2:
+                            Console.Clear();
+                            Titulo();
+                            Console.WriteLine($"\nTotal Facturado\n");
+                            continuar = Facturacion.TotalFacturado();
+                            break;
+
+                        case 3:
+                            continuar = false;
+                            break;
+                    }
+
+                } while (continuar);
+
+                if (opcion == 3)
+                {
+                    exit = false;
+                }
+
                 return exit;
-            }
+            }          
 
         #endregion
 

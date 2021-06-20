@@ -288,7 +288,7 @@ namespace SegundoParcial
                 {
                     if (usuario == "Admin")
                     {
-                        for (int i = 0; i < auxArray.GetLength(0); i++)
+                        for (int i = 0; i < auxArray.Length; i++)
                         {
                             if (!string.IsNullOrEmpty(auxArray[i].ToString()) || auxArray[i].ToString() != "0")
                             {
@@ -301,8 +301,14 @@ namespace SegundoParcial
                     }
                     else
                     {
-                        cantidadImpresa++;
-                        Console.WriteLine($"{cantidadImpresa}. Vender");
+                        for (int i = 0; i < auxArray.Length; i++)
+                        {
+                            if (auxArray[i].ToString() == "Ventas" || auxArray[i].ToString() == "Facturación del día")
+                            {
+                                cantidadImpresa++;
+                                Console.WriteLine($"{cantidadImpresa}. {auxArray[i]}");
+                            }
+                        }
                         cantidadImpresa++;
                         Console.WriteLine($"{cantidadImpresa}. Salir");
                     }
