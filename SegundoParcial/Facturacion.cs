@@ -24,7 +24,10 @@ namespace SegundoParcial
             {"", "", "", "", "", "", "200"}
         };
 
-        public static bool TotalFacturado()
+        /// <summary>
+        ///     Recorre la matriz acumuladoFacturas e imprime en pantalla el total de ventas realizadas y el total recaudado
+        /// </summary>
+        public static void TotalFacturado()
         {
             int cantidadVentas = 0;
             int totalRecaudado = 0;
@@ -43,42 +46,12 @@ namespace SegundoParcial
             Console.WriteLine($"Total recaudado: ${totalRecaudado}");
             Console.WriteLine("\n\n\nPresione cualquier tecla para salir");
             Console.ReadKey();
-            bool exit = false;
-
-            return exit;
         }
 
-        public static bool FacturacionIndividual()
-        {
-            Console.Write("Ingrese nombre de vendedor a buscar: ");
-            string vendedor = Console.ReadLine();
-
-            //Almacenar indices de elementos de factura
-            Console.WriteLine("");
-            int[] arrayIndices = AlmacenarIndices(vendedor, 0);
-            while (arrayIndices[0] == 0)
-            {
-                Console.WriteLine("Vendedor no encontrado");
-                Console.Write("Ingrese nombre de vendedor a buscar: ");
-                vendedor = Console.ReadLine();
-                Console.WriteLine("");
-                arrayIndices = AlmacenarIndices(vendedor, 0);
-            }
-
-            //Impresión de factura
-            ImprimirFacturaEncontrada(arrayIndices);
-
-            //Vaciar temporales
-            VaciarTemporales(arrayIndices);
-
-            Console.WriteLine("\n\nPresione una tecla para salir");
-            Console.ReadKey();
-            bool exit = false;
-
-            return exit;
-        }
-
-        public static bool BuscarFactura()
+        /// <summary>
+        ///     Recorre la matriz acumuladoFacturas e imprime en pantalla la factura buscada por número de factura
+        /// </summary>
+        public static void BuscarFactura()
         {
             Console.Write("Ingrese número de factura a buscar: ");
             string numFactura = Console.ReadLine();            
@@ -103,12 +76,13 @@ namespace SegundoParcial
 
             Console.WriteLine("\n\nPresione una tecla para salir");
             Console.ReadKey();
-            bool exit = false;
-
-            return exit;
 
         }
 
+        /// <summary>
+        ///     Imprime factura obteniendo los datos de la matriz acumuladoFacturas
+        /// </summary>
+        /// <param name="arrayIndices"></param>
         static void ImprimirFacturaEncontrada(int[] arrayIndices)
         {
             //Títulos
@@ -157,6 +131,11 @@ namespace SegundoParcial
             Console.Write($"                                                                                               |{acumuladoFacturas[auxIndiceI, 6]}");
         }
 
+        /// <summary>
+        ///     Borra los valores predeterminados de un array de interger
+        /// </summary>
+        /// <param name="auxArray">Array a borrar</param>
+        /// <returns></returns>
         static int[] VaciarTemporales(int[] auxArray)
         {
             int[] newArray = new int[1];
@@ -165,6 +144,12 @@ namespace SegundoParcial
             return auxArray;
         }
 
+        /// <summary>
+        ///     Almacena los distintos indices de los elementos de una factura que se encuentran en la matriz acumuladoFacturas 
+        /// </summary>
+        /// <param name="datoBuscar">Dato a buscar en la matriz para almacenar los indices</param>
+        /// <param name="colum">Columna de la matriz en la que se buscará el dato</param>
+        /// <returns>Array de interger con los indices correspondientes</returns>
         static int[] AlmacenarIndices(string datoBuscar, int colum)
         {
             int[] arrayIndices = new int[1];

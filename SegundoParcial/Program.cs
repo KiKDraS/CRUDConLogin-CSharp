@@ -8,6 +8,9 @@ namespace SegundoParcial
 {
     class Program
     {
+        /// <summary>
+        ///     Método root de la aplicación
+        /// </summary>
         static void App()
         {
             bool exit = true;

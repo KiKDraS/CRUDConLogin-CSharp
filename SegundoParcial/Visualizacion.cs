@@ -445,17 +445,14 @@ namespace SegundoParcial
             }
 
             public static bool MenuFacturacion(string usuario, bool exit)
-            {
-                bool continuar = true;
-                int opcion = 0;                
-
+            {    
                 do
                 {
                     Console.Clear();
                     Titulo();
                     Console.WriteLine($"\nMenu Facturación\n");
                     int cantidadImpresa = Procedimientos.ImprimirArray(menuOpcionesFacturacion, usuario);
-                    opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, menuOpcionesFacturacion, usuario);
+                    int opcion = Validaciones.ValidarOpcionArray("\nSeleccione opción: ", cantidadImpresa, menuOpcionesFacturacion, usuario);
 
                     switch (opcion)
                     {
@@ -463,27 +460,22 @@ namespace SegundoParcial
                             Console.Clear();
                             Titulo();
                             Console.WriteLine($"\nBuscar Factura\n");
-                            continuar = Facturacion.BuscarFactura();
+                            Facturacion.BuscarFactura();
                             break;
 
                         case 2:
                             Console.Clear();
                             Titulo();
                             Console.WriteLine($"\nTotal Facturado\n");
-                            continuar = Facturacion.TotalFacturado();
+                            Facturacion.TotalFacturado();
                             break;
 
                         case 3:
-                            continuar = false;
+                            exit = false;
                             break;
                     }
 
-                } while (continuar);
-
-                if (opcion == 3)
-                {
-                    exit = false;
-                }
+                } while (exit);
 
                 return exit;
             }          
