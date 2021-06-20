@@ -18,8 +18,8 @@ namespace SegundoParcial
             do
             {
                 //Login
-                //string usuario = Visualizacion.login();
-                string usuario = "Admin";
+                string usuario = Visualizacion.Login();
+                //string usuario = "Admin";
                 //string usuario = "Vendedor1";
 
                 switch (usuario)

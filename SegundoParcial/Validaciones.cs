@@ -89,8 +89,8 @@ namespace SegundoParcial
                 Console.WriteLine("Datos ingresados:\n");
                 for (int i = 0; i < auxMatriz.GetLength(0); i++)
                 {
-                    Procedimientos.ImprimirMatriz(auxOriginal);
-                    Procedimientos.ImprimirMatriz(auxMatriz);
+                    Procedimientos.ImprimirTitulos(auxOriginal);
+                    Procedimientos.ImprimirItems(auxMatriz);
                 }
 
                 continuar = ValidarSalir("\n\nSi los datos son correctos presione ESC. Si quiere cambiarlos presione ENTER", continuar);

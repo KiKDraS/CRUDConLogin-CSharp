@@ -54,6 +54,56 @@ namespace SegundoParcial
             }
 
             /// <summary>
+            ///     Impresión de títulos
+            /// </summary>
+            /// <param name="auxMatriz">Matriz a usar para obtener títulos</param>
+            public static void ImprimirTitulos<T>(T[,] auxMatriz)
+            {
+                Console.BackgroundColor = ConsoleColor.DarkYellow;
+                Console.ForegroundColor = ConsoleColor.Black;
+
+                for (int i = 0; i < 1; i++)
+                {
+                    if (!string.IsNullOrEmpty(auxMatriz[i, 1].ToString()))
+                    {
+                        Console.Write("|");
+                        for (int j = 0; j < auxMatriz.GetLength(1); j++)
+                        {
+                            if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()))
+                            {
+                                Console.Write($"{auxMatriz[i, j],-15}|");
+                            }
+                        }
+                        Console.WriteLine("");
+                    }
+                }
+                Console.ResetColor();
+            }
+
+            /// <summary>
+            ///     Impresión de items
+            /// </summary>
+            /// <param name="auxMatriz">Matriz a usar para obtener items</param>
+            public static void ImprimirItems<T>(T[,] auxMatriz)
+            {
+                for (int i = 0; i < auxMatriz.GetLength(0); i++)
+                {
+                    if (!string.IsNullOrEmpty(auxMatriz[i, 1].ToString()) || auxMatriz[i, 1].ToString() == "0")
+                    {
+                        Console.Write("|");
+                        for (int j = 0; j < auxMatriz.GetLength(1); j++)
+                        {
+                            if (!string.IsNullOrEmpty(auxMatriz[i, j].ToString()) || auxMatriz[i, j].ToString() == "0")
+                            {
+                                Console.Write($"{auxMatriz[i, j],-15}|");
+                            }
+                        }
+                        Console.WriteLine("");
+                    }
+                }
+            }
+
+            /// <summary>
             ///     Método para crear un menú de opciones a partir de la fila de una matriz.
             /// </summary>
             /// <param name="auxMatriz">Matiz a imprimir</param>
